@@ -52,6 +52,9 @@ import EgovAdminScheduleEdit from 'pages/admin/schedule/EgovAdminScheduleEdit';
 import EgovAdminBoardList from 'pages/admin/board/EgovAdminBoardList';
 import EgovAdminBoardEdit from 'pages/admin/board/EgovAdminBoardEdit';
 
+import EgovAdminUserList from 'pages/admin/user/EgovAdminUserList';
+import EgovAdminUserEdit from 'pages/admin/user/EgovAdminUserEdit';
+
 import EgovAdminUsageList from 'pages/admin/usage/EgovAdminUsageList';
 import EgovAdminUsageEdit from 'pages/admin/usage/EgovAdminUsageEdit';
 
@@ -202,6 +205,10 @@ const SecondRoutes = () => {
         <Route path={URL.ADMIN_BOARD} element={<EgovAdminBoardList />} />
         <Route path={URL.ADMIN_BOARD_CREATE} element={<EgovAdminBoardEdit mode={CODE.MODE_CREATE} />} />
         <Route path={URL.ADMIN_BOARD_MODIFY} element={<EgovAdminBoardEdit mode={CODE.MODE_MODIFY} />} />
+        {/* Deprecated method list(String, Object) from EgovAbstractMapper is replaced with selectList(String, Object) */}
+        <Route path={URL.ADMIN_USER} element={<EgovAdminUserList />} />
+        <Route path={URL.ADMIN_USER_CREATE} element={<EgovAdminUserEdit mode={CODE.MODE_CREATE} />} />
+        <Route path={URL.ADMIN_USER_MODIFY} element={<EgovAdminUserEdit mode={CODE.MODE_MODIFY} />} />
 
         <Route path={URL.ADMIN_USAGE} element={<EgovAdminUsageList />} />
         <Route path={URL.ADMIN_USAGE_CREATE} element={<EgovAdminUsageEdit mode={CODE.MODE_CREATE} />} />
