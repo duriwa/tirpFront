@@ -59,7 +59,7 @@ function UserMngList(props) {
 
                     mutListTag.push(
                         <Link
-                            to={{pathname: URL.ADMIN_BOARD_MODIFY}}
+                            to={{pathname: URL.ADMIN_USER_MODIFY}}
                             state={{
                                 bbsId: item.bbsId,
                                 searchCondition: searchCondition
