@@ -61,7 +61,7 @@ function UserMngList(props) {
                         <Link
                             to={{pathname: URL.ADMIN_USER_MODIFY}}
                             state={{
-                                bbsId: item.bbsId,
+                                userId: item.userId,
                                 searchCondition: searchCondition
                             }}
                             key={listIdx}

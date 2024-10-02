@@ -54,7 +54,7 @@ const URL = {
     ADMIN_USER                  : "/admin/user",        // 사이트관리/사용자관리
     ADMIN_USER_DETAIL           : "/admin/user/detail", // 사이트관리/사용자관리상세
     ADMIN_USER_CREATE           : "/admin/user/create", // 사이트관리/사용자관리생성
-    ADMIN_USER_MODIFY           : "/admin/user/modify", // 사이트관리/사용자관리수정
+    ADMIN_USER_MODIFY           : "/admin/userMng/modify", // 사이트관리/사용자관리수정
 
     ADMIN_BOARD                 : "/admin/board", // 사이트관리/게시판생성관리 목록
     ADMIN_BOARD_DETAIL          : "/admin/board/detail", // 사이트관리/게시판생성관리 상세
