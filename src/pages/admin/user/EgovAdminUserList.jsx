@@ -61,7 +61,7 @@ function UserMngList(props) {
                         <Link
                             to={{pathname: URL.ADMIN_USER_MODIFY}}
                             state={{
-                                bbsId: item.bbsId,
+                                userId: item.userId,
                                 searchCondition: searchCondition
                             }}
                             key={listIdx}
@@ -150,7 +150,7 @@ function UserMngList(props) {
                                     </span>
                                 </li>
                                 <li>
-                                    <Link to={URL.ADMIN_BOARD_CREATE} className="btn btn_blue_h46 pd35">등록</Link>
+                                    <Link to={URL.ADMIN_USER_CREATE} className="btn btn_blue_h46 pd35">등록</Link>
                                 </li>
                             </ul>
                         </div>
