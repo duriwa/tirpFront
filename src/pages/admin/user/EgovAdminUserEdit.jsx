@@ -21,7 +21,7 @@ function EgovAdminUserEdit(props) {
     console.log("EgovAdminUserEdit [location] : ", location);
 
     const replyPosblAtRadioGroup = [{ value: "Y", label: "가능" }, { value: "N", label: "불가능" }];
-    const fileAtchPosblAtRadioGroup = [{ value: "Y", label: "가능" }, { value: "N", label: "불가능" }];
+    const useAtRadioGroup = [{ value: "Y", label: "사용" }, { value: "N", label: "삭제" }];
     const userTyCodeOptions = [{ value: "", label: "선택" }, { value: "BBST01", label: "일반사용자" }, { value: "BBST03", label: "공지사용자" }];
     const userAttrbCodeOptions = [{ value: "", label: "선택" }, { value: "BBSA02", label: "갤러리" }, { value: "BBSA03", label: "일반사용자" }];
     const posblAtchFileNumberOptions = [{ value: 0, label: "선택하세요" }, { value: 1, label: "1개" }, { value: 2, label: "2개" }, { value: 3, label: "3개" }];
@@ -270,6 +270,16 @@ function EgovAdminUserEdit(props) {
                                         onChange={e => setUserDetail({ ...userDetail, userNm: e.target.value })}
 										ref={el => (checkRef.current[0] = el)}
                                     />
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>계정사용여부<span className="req">필수</span></dt>
+                                <dd>
+                                    <EgovRadioButtonGroup
+                                        name="useAt"
+                                        radioGroup={useAtRadioGroup}
+                                        setValue={userDetail.useAt}
+                                        setter={(v) => setUserDetail({ ...userDetail, useAt: v })} />
                                 </dd>
                             </dl>
                             <dl>
