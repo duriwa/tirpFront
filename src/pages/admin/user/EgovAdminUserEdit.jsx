@@ -22,15 +22,14 @@ function EgovAdminUserEdit(props) {
 
     const replyPosblAtRadioGroup = [{ value: "Y", label: "가능" }, { value: "N", label: "불가능" }];
     const fileAtchPosblAtRadioGroup = [{ value: "Y", label: "가능" }, { value: "N", label: "불가능" }];
-    const userTyCodeOptions = [{ value: "", label: "선택" }, { value: "BBST01", label: "일반게시판" }, { value: "BBST03", label: "공지게시판" }];
-    const userAttrbCodeOptions = [{ value: "", label: "선택" }, { value: "BBSA02", label: "갤러리" }, { value: "BBSA03", label: "일반게시판" }];
+    const userTyCodeOptions = [{ value: "", label: "선택" }, { value: "BBST01", label: "일반사용자" }, { value: "BBST03", label: "공지사용자" }];
+    const userAttrbCodeOptions = [{ value: "", label: "선택" }, { value: "BBSA02", label: "갤러리" }, { value: "BBSA03", label: "일반사용자" }];
     const posblAtchFileNumberOptions = [{ value: 0, label: "선택하세요" }, { value: 1, label: "1개" }, { value: 2, label: "2개" }, { value: 3, label: "3개" }];
     const userId = location.state?.userId || "";
 
     const [modeInfo, setModeInfo] = useState({ mode: props.mode });
     const [userDetail, setUserDetail] = useState({});
-
-    const [oldPassword, setOldPassword] = useState('');
+	const [oldPassword, setOldPassword] = useState('');
 	const [newPassword, setNewPassword] = useState('');
 
     const initMode = () => {
@@ -89,23 +88,23 @@ function EgovAdminUserEdit(props) {
 
 	const formValidator = (formData) => {
         if (formData.get('userNm') === null || formData.get('userNm') === "") {
-            alert("게시판명은 필수 값입니다.");
+            alert("사용자명은 필수 값입니다.");
             return false;
         }
-        if (formData.get('userIntrcn') === null || formData.get('userIntrcn') === "") {
-            alert("게시판 소개는 필수 값입니다.");
+        if (formData.get('oldPassword') != null && formData.get('oldPassword') != ""
+            && (formData.get('newPassword') === null && formData.get('newPassword') === "")
+        ) {
+            alert("기존 암호를 입력하면 신규 암호는 필수 값입니다.");
             return false;
         }
-        if (formData.get('userTyCode') === null || formData.get('userTyCode') === "") {
-            alert("게시판 유형은 필수 값입니다.");
+        if (formData.get('newPassword') != null && formData.get('newPassword') != ""
+            && (formData.get('oldPassword') === null && formData.get('oldPassword') === "")
+        ) {
+            alert("신규 암호를 입력하면 기존 암호는 필수 값입니다.");
             return false;
         }
-        if (formData.get('userAttrbCode') === null || formData.get('userAttrbCode') === "") {
-            alert("게시판 속성은 필수 값입니다.");
-            return false;
-        }
-        if (formData.get('posblAtchFileNumber') === null || formData.get('posblAtchFileNumber') === "") {
-            alert("첨부파일 가능 숫자는 필수 값입니다.");
+        if (formData.get('newPassword') === formData.get('oldPassword')) {
+            alert("신규 암호는 기존 암호와 동일하게 사용할 수 없습니다.");
             return false;
         }
         if (formData.get('old_password') === null || formData.get('old_password') === "") {
@@ -125,15 +124,7 @@ function EgovAdminUserEdit(props) {
 
     const formObjValidator = (checkRef) => {
         if(checkRef.current[0].value === ""){
-            alert("게시판명은 필수 값입니다.");
-            return false;
-        }
-        if(checkRef.current[1].value === ""){
-            alert("게시판 소개는 필수 값입니다.");
-            return false;
-        }
-        if(checkRef.current[2].value === "0"){
-            alert("첨부파일 가능 숫자는 필수 값입니다.");
+            alert("사용자명은 필수 값입니다.");
             return false;
         }
         return true;
@@ -217,7 +208,7 @@ function EgovAdminUserEdit(props) {
             (resp) => {
                 console.log("====>>> user delete= ", resp);
                 if (Number(resp.resultCode) === Number(CODE.RCV_SUCCESS)) {
-                    alert("게시글이 삭제되었습니다.")
+                    alert("사용자가 삭제되었습니다.")
                     navigate(URL.ADMIN_USER, { replace: true });
                 } else {
                     alert("ERR : " + resp.resultMessage);
@@ -247,7 +238,7 @@ function EgovAdminUserEdit(props) {
                     <ul>
                         <li><Link to={URL.MAIN} className="home">Home</Link></li>
                         <li><Link to={URL.ADMIN}>사이트관리</Link></li>
-                        <li>게시판생성 관리</li>
+                        <li>사용자생성 관리</li>
                     </ul>
                 </div>
                 {/* <!--// Location --> */}
@@ -274,11 +265,11 @@ function EgovAdminUserEdit(props) {
 
                         <div className="board_view2">
                             <dl>
-                                <dt><label htmlFor="userNm">아이디</label><span className="req">필수</span></dt>
+                                <dt><label htmlFor="userId">사용자 ID</label><span className="req">필수</span></dt>
                                 <dd>
                                     <input className="f_input2 w_full" type="text" name="userId" title="" id="userId" placeholder=""
                                         defaultValue={userDetail.userId}
-                                        onChange={e => setUserDetail({ ...userDetail, userNm: e.target.value })}
+                                        onChange={e => setUserDetail({ ...userDetail, userId: e.target.value })}
 										ref={el => (checkRef.current[0] = el)}
                                     />
                                 </dd>
@@ -294,20 +285,20 @@ function EgovAdminUserEdit(props) {
                                 </dd>
                             </dl>
                             <dl>
-                                <dt><label htmlFor="oldPassword">기존 암호</label><span className="req">필수</span></dt>
+                                <dt><label htmlFor="oldPassword">기존 암호</label></dt>
                                 <dd>
                                     <input className="f_input2 w_full" type="password" name="oldPassword" title="" id="oldPassword" placeholder="" 
-									defaultValue={userDetail.userId}
-									onChange={e => setOldPassword(e.target.value )}
+									defaultValue={oldPassword}
+									onChange={e => setUserDetail({ ...userDetail, oldPassword: e.target.value })}
 									/>
                                 </dd>
                             </dl>
                             <dl>
-                                <dt><label htmlFor="newPassword">신규 암호</label><span className="req">필수</span></dt>
+                                <dt><label htmlFor="newPassword">신규 암호</label></dt>
                                 <dd>
                                     <input className="f_input2 w_full" type="password" name="newPassword" title="" id="newPassword" placeholder=""
-									defaultValue={userDetail.userId} 
-									onChange={e => setNewPassword(e.target.value )}
+									defaultValue={newPassword} 
+									onChange={e => setUserDetail({ ...userDetail, newPassword: e.target.value })}
 									/>
                                 </dd>
                             </dl>
