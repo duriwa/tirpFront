@@ -275,6 +275,7 @@ function EgovAdminUserEdit(props) {
                                     <input className="f_input2 w_full" type="text" name="userId" title="" id="userId" placeholder=""
                                         defaultValue={userDetail.userId}
                                         onChange={e => setUserDetail({ ...userDetail, userId: e.target.value })}
+										ref={el => (checkRef.current[0] = el)}
                                     />
                                 </dd>
                             </dl>
@@ -284,6 +285,7 @@ function EgovAdminUserEdit(props) {
                                     <input className="f_input2 w_full" type="text" name="userNm" title="" id="userNm" placeholder=""
                                         defaultValue={userDetail.userNm}
                                         onChange={e => setUserDetail({ ...userDetail, userNm: e.target.value })}
+										ref={el => (checkRef.current[0] = el)}
                                     />
                                 </dd>
                             </dl>
