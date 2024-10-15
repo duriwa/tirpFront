@@ -51,7 +51,8 @@ function EgovLoginContent(props) {
     useEffect(() => {
         let data = getLocalItem(KEY_ID);
         if (data !== null) {
-            setUserInfo({ id: data, password: 'default', userSe: 'USR' });
+//            setUserInfo({ id: data, password: 'default', userSe: 'USR' });
+            setUserInfo({ id: data, password: 'default', userSe: 'TI' });
         }
     }, []);
 
