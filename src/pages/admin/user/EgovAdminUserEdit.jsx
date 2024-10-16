@@ -20,7 +20,7 @@ function EgovAdminUserEdit(props) {
 	
     console.log("EgovAdminUserEdit [location] : ", location);
 
-    const useAtRadioGroup = [{ value: "Y", label: "사용" }, { value: "N", label: "삭제" }];
+    const useAtRadioGroup = [{ value: "Y", label: "사용" }, { value: "N", label: "사용 안함" }];
     const userId = location.state?.userId || "";
 
     const [modeInfo, setModeInfo] = useState({ mode: props.mode });
