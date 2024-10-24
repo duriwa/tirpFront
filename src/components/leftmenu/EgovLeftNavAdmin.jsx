@@ -11,6 +11,7 @@ function EgovLeftNavAdmin() {
                 <ul className="menu4">
                     <li>---신 메뉴---</li>
                     <li><NavLink to={URL.ADMIN_USER} className={({ isActive }) => (isActive ? "cur" : "")}>사용자관리</NavLink></li>
+                    <li><NavLink to={URL.ADMIN_MENU} className={({ isActive }) => (isActive ? "cur" : "")}>메뉴관리</NavLink></li>
                     <li>---샘플 메뉴---</li>
                     <li><NavLink to={URL.ADMIN_SCHEDULE} className={({ isActive }) => (isActive ? "cur" : "")}>일정관리</NavLink></li>
                     <li><NavLink to={URL.ADMIN_BOARD} className={({ isActive }) => (isActive ? "cur" : "")}>게시판생성관리</NavLink></li>

@@ -145,10 +145,14 @@ function EgovHeader() {
                         <div className="col">
                             <h3>관리자</h3>
                             <ul>
-                                <li><NavLink to={URL.ADMIN_SCHEDULE} className={({ isActive }) => (isActive ? "cur" : "")}>사용자관리</NavLink></li>
-                                <li><NavLink to={URL.ADMIN_BOARD} className={({ isActive }) => (isActive ? "cur" : "")}>권한관리</NavLink></li>
-                                <li><NavLink to={URL.ADMIN_USAGE} className={({ isActive }) => (isActive ? "cur" : "")}>메뉴관리</NavLink></li>
-                                <li><NavLink to={URL.ADMIN_NOTICE} className={({ isActive }) => (isActive ? "cur" : "")}>코드관리</NavLink></li>
+                                <li><NavLink to={URL.ADMIN_USER} className={({ isActive }) => (isActive ? "cur" : "")}>사용자관리</NavLink></li>
+                                <li><NavLink to={URL.ADMIN_MENU} className={({ isActive }) => (isActive ? "cur" : "")}>메뉴관리</NavLink></li>
+                                <li><NavLink to={URL.ADMIN_SCHEDULE} className={({ isActive }) => (isActive ? "cur" : "")}>일정관리</NavLink></li>
+                                <li><NavLink to={URL.ADMIN_BOARD} className={({ isActive }) => (isActive ? "cur" : "")}>게시판생성관리</NavLink></li>
+                                <li><NavLink to={URL.ADMIN_USAGE} className={({ isActive }) => (isActive ? "cur" : "")}>게시판사용관리</NavLink></li>
+                                <li><NavLink to={URL.ADMIN_NOTICE} className={({ isActive }) => (isActive ? "cur" : "")}>공지사항관리</NavLink></li>
+                                <li><NavLink to={URL.ADMIN_GALLERY} className={({ isActive }) => (isActive ? "cur" : "")}>사이트갤러리관리</NavLink></li>
+                                <li><NavLink to={URL.ADMIN_MANAGER} className={({ isActive }) => (isActive ? "cur" : "")}>사이트관리자 암호변경</NavLink></li>
                             </ul>
                         </div>
                     }
@@ -210,6 +214,8 @@ function EgovHeader() {
                             <h3><Link to={URL.ADMIN}>사이트관리</Link></h3>
                             <div className="submenu closed">
                                 <ul>
+                                    <li><NavLink to={URL.ADMIN_USER} className={({ isActive }) => (isActive ? "cur" : "")}>사용자관리</NavLink></li>
+                                    <li><NavLink to={URL.ADMIN_MENU} className={({ isActive }) => (isActive ? "cur" : "")}>메뉴관리</NavLink></li>
                                     <li><NavLink to={URL.ADMIN_SCHEDULE} className={({ isActive }) => (isActive ? "cur" : "")}>일정관리</NavLink></li>
                                     <li><NavLink to={URL.ADMIN_BOARD} className={({ isActive }) => (isActive ? "cur" : "")}>게시판생성관리</NavLink></li>
                                     <li><NavLink to={URL.ADMIN_USAGE} className={({ isActive }) => (isActive ? "cur" : "")}>게시판사용관리</NavLink></li>

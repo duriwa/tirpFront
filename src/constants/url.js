@@ -56,6 +56,11 @@ const URL = {
     ADMIN_USER_CREATE           : "/admin/user/create", // 사이트관리/사용자관리생성
     ADMIN_USER_MODIFY           : "/admin/userMng/modify", // 사이트관리/사용자관리수정
 
+    ADMIN_MENU                  : "/admin/menu",        // 사이트관리/메뉴관리
+    ADMIN_MENU_DETAIL           : "/admin/menu/detail", // 사이트관리/메뉴관리상세
+    ADMIN_MENU_CREATE           : "/admin/menu/create", // 사이트관리/메뉴관리생성
+    ADMIN_MENU_MODIFY           : "/admin/menu/modify", // 사이트관리/메뉴관리수정
+
     ADMIN_BOARD                 : "/admin/board", // 사이트관리/게시판생성관리 목록
     ADMIN_BOARD_DETAIL          : "/admin/board/detail", // 사이트관리/게시판생성관리 상세
     ADMIN_BOARD_CREATE          : "/admin/board/create", // 사이트관리/게시판생성관리 등록
