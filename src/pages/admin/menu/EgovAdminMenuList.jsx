@@ -8,6 +8,74 @@ import { default as EgovLeftNav } from 'components/leftmenu/EgovLeftNavAdmin';
 import EgovPaging from 'components/EgovPaging';
 
 import { itemIdxByPage } from 'utils/calc';
+function MenuManagement() {
+    const [menuList, setMenuList] = useState([]);
+    const [newMenu, setNewMenu] = useState({ name: '', url: '' });
+
+    const fetchMenuList = useCallback(() => {
+        const fetchURL = '/menuMng';
+        const requestOptions = {
+            method: "GET",
+            headers: {
+                'Content-type': 'application/json',
+            }
+        };
+
+        EgovNet.requestFetch(fetchURL, requestOptions, (resp) => {
+            setMenuList(resp.result.menuList);
+        });
+    }, []);
+
+    const addMenu = useCallback(() => {
+        const addURL = '/menuMng/add';
+        const requestOptions = {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(newMenu)
+        };
+
+        EgovNet.requestFetch(addURL, requestOptions, (resp) => {
+            if (resp.result.success) {
+                fetchMenuList();
+                setNewMenu({ name: '', url: '' });
+            }
+        });
+    }, [newMenu, fetchMenuList]);
+
+    useEffect(() => {
+        fetchMenuList();
+    }, [fetchMenuList]);
+
+    return (
+        <div>
+            <h2>메뉴 관리</h2>
+            <div>
+                <input
+                    type="text"
+                    placeholder="메뉴 이름"
+                    value={newMenu.name}
+                    onChange={(e) => setNewMenu({ ...newMenu, name: e.target.value })}
+                />
+                <input
+                    type="text"
+                    placeholder="메뉴 URL"
+                    value={newMenu.url}
+                    onChange={(e) => setNewMenu({ ...newMenu, url: e.target.value })}
+                />
+                <button onClick={addMenu}>메뉴 추가</button>
+            </div>
+            <ul>
+                {menuList.map((menu, index) => (
+                    <li key={index}>
+                        {menu.name} - {menu.url}
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+}
 
 function MenuList(props) {
     console.group("MenuList");
@@ -100,7 +168,7 @@ function MenuList(props) {
                     <ul>
                         <li><Link to={URL.MAIN} className="home">Home</Link></li>
                         <li><Link to={URL.ADMIN}>사이트관리</Link></li>
-                        <li>사용자 조회</li>
+                        <li>메뉴 관리</li>
                     </ul>
                 </div>
                 {/* <!--// Location --> */}
@@ -114,10 +182,10 @@ function MenuList(props) {
                         {/* <!-- 본문 --> */}
 
                         <div className="top_tit">
-                            <h1 className="tit_1">사용자관리</h1>
+                            <h1 className="tit_1">메뉴관리</h1>
                         </div>
 
-                        <h2 className="tit_2">사용자 조회</h2>
+                        <h2 className="tit_2">메뉴 조회</h2>
 
                         {/* <!-- 검색조건 --> */}
                         <div className="condition">
