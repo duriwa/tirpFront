@@ -1,72 +1,375 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+
+import * as EgovNet from 'api/egovFetch';
+import URL from 'constants/url';
+import CODE from 'constants/code';
 
 import { default as EgovLeftNav } from 'components/leftmenu/EgovLeftNavIntro';
 
-function EgovIntroService() {
-    return (
-        <div className="container">
-        <div className="c_wrap">
-            {/* <!-- Location --> */}
-            <div className="location">
-                <ul>
-                    <li><a className="home" href="#!">Home</a></li>
-                    <li><a href="#!">정보마당</a></li>
-                    <li>대표서비스 소개</li>
-                </ul>
-            </div>
-            {/* <!--// Location --> */}
+function EgovIntroService(props) {
+  const location = useLocation();
+  console.log('EgovIntroService [location] : ', location);
 
-            <div className="layout">
-                {/* <!-- Navigation --> */}
-                <EgovLeftNav></EgovLeftNav>
-                {/* <!--// Navigation --> */}
-                
-                <div className="contents SERVICE_INTRO" id="contents">
-                    {/* <!-- 본문 --> */}
+  const DATE = new Date();
+  const FIRST_DAY_OF_THIS_WEEK = new Date(
+    DATE.getFullYear(),
+    DATE.getMonth(),
+    DATE.getDate() - DATE.getDay()
+  );
 
-                    <h1 className="tit_3">정보마당</h1>
-
-                    <p className="txt_1">대표제품의 소개와 대표서비스의 소개를 보실 수 있는 페이지입니다.</p>
-                    
-                    <h2 className="tit_4">대표서비스 소개</h2>
-
-                    <p className="txt_1">
-                        전자정부 표준 프레임워크 실행환경은 5개 서비스 그룹으로 구성되며 34개 서비스를 제공한다.<br/>
-                        실행환경 서비스 구조는 아래 그림과 같다.
-                    </p>
-
-                    <h3 className="tit_5">화면처리</h3>
-
-                    <div className="msg">
-                        <p>화면처리 서비스그룹은 업무처리 서비스와 사용자간의 인터페이스를 담당하는 서비스로 사용자 화면 구성 및<br/>사용자 입력 정보 검증 등의 기능을 지원한다.</p>
-                        <ul>
-                            <li>Ajax Support: Ajax는 대화식 웹 애플리케이션의 제작을 위해 HTML과 CSS, DOM, 자바 스크립트, XML, XSLT 등과 같은 조합을 이용하는 웹 개발 기법으로 Ajax 기능 지원을 위한 Custom Tag Library를 제공한다.</li>
-                            <li>Internationalization: Internationalization은 다양한 지역과 언어 환경을 지원할 수 있는 서비스로, 서버 설정 및 클라이언트 브라우저 환경에 따라 자동화된 다국어 기능을 제공한다.</li>
-                            <li>MVC :  MVC 디자인 패턴을 적용하여 사용자 화면을 개발할 수 있도록 MVC 기반 구조를 제공한다.</li>
-                            <li>Security : 웹 응용프로그램 작성 시 발생될 수 있는 웹 보안상의 취약점(XSS, SQL Injection 등)에 대응하기 위한 기능을 제공한다.</li>
-                            <li>UI Adaptor : 화면 레이어의 구현 방식에 따라 업무로직 레이어가 변경되는 것을 막기 위해서, 업무처리 Layer에서 사용할 데이터 타입을 정의하고, 화면 레이어에서 사용하는 in/out parameter를 해당 구현 
-                                방식에 맞게 변환해주는 기능 제공한다.</li>
-                        </ul>
-                    </div>
-
-                    <h3 className="tit_5">업무처리</h3>
-
-                    <div className="msg second">
-                        <p>업무처리 서비스는 업무 프로그램의 업무 로직을 담당하는 서비스로 업무 흐름제어, 트랜잭션 관리, 에러 처리 등의<br/>
-                            기능을 제공한다.</p>
-                        <ul>
-                            <li>Process Control : 비지니스 로직과 업무 흐름의 분리를 지원하며, XML 등의 외부 설정으로 업무흐름 구성을 제공하고, 미리 정의된 프로세스를 실행하는 기능을 제공한다.
-                                </li>
-                            <li>Exception Handling : 응용 프로그래밍의 수행 과정에서 발생하는 예외사항(Exception)을 처리하기 위해 표준화된 방법을 제공한다.</li>
-                        </ul>
-                    </div>
-
-                    {/* <!--// 본문 --> */}
-                </div>
-            </div>
-        </div>
-    </div>
+  const getWeekOfMonth = (date) => {
+    let adjustedDate = date.getDate() + date.getDay();
+    console.log(
+      'getWeekOfMonth : ',
+      date,
+      date.getDate(),
+      date.getDay(),
+      adjustedDate,
+      adjustedDate / 7,
+      0 | (adjustedDate / 7)
     );
+    let weeksOrder = [0, 1, 2, 3, 4, 5];
+    let returnVal = parseInt(weeksOrder[0 | (adjustedDate / 7)]);
+    console.log('returnVal:', returnVal);
+    return returnVal;
+  };
+
+  const [searchCondition, setSearchCondition] = useState(
+    location.state?.searchCondition || {
+      schdulSe: '',
+      year: FIRST_DAY_OF_THIS_WEEK.getFullYear(),
+      month: FIRST_DAY_OF_THIS_WEEK.getMonth(),
+      date: FIRST_DAY_OF_THIS_WEEK.getDate(),
+      weekDay: FIRST_DAY_OF_THIS_WEEK.getDay(),
+      weekOfMonth: getWeekOfMonth(FIRST_DAY_OF_THIS_WEEK),
+    }
+  );
+
+  const [scheduleList, setScheduleList] = useState([]);
+  const [listTag, setListTag] = useState([]);
+
+  const changeDate = (target, amount) => {
+    let changedDate;
+
+    if (target === CODE.DATE_YEAR) {
+      changedDate = new Date(
+        searchCondition.year + amount,
+        searchCondition.month,
+        searchCondition.date
+      );
+    }
+
+    if (target === CODE.DATE_MONTH) {
+      changedDate = new Date(
+        searchCondition.year,
+        searchCondition.month + amount,
+        searchCondition.date
+      );
+    }
+
+    if (target === CODE.DATE_WEEK) {
+      // let addtionOfDays = 7 * amount - searchCondition.weekDay;
+      let addtionOfDays = 7 * amount;
+      changedDate = new Date(
+        searchCondition.year,
+        searchCondition.month,
+        searchCondition.date + addtionOfDays
+      ); //다음주의 첫날
+    }
+    console.log('changedDate : ', changedDate);
+    setSearchCondition({
+      ...searchCondition,
+      year: changedDate.getFullYear(),
+      month: changedDate.getMonth(),
+      date: changedDate.getDate(),
+      weekDay: changedDate.getDay(),
+      weekOfMonth: getWeekOfMonth(changedDate),
+    });
+  };
+
+  const drawList = useCallback(() => {
+    const dayNames = [
+      '일요일',
+      '월요일',
+      '화요일',
+      '수요일',
+      '목요일',
+      '금요일',
+      '토요일',
+    ];
+    let mutListTag = [];
+
+    let keyPropertyCnt = 0;
+    // 리스트 항목 구성
+    for (let dayIdx = 0; dayIdx < 7; dayIdx++) {
+      let scheduleDate = new Date(
+        searchCondition.year,
+        searchCondition.month,
+        searchCondition.date + dayIdx
+      );
+      let scheduleDateStr =
+        scheduleDate.getFullYear() +
+        '년 ' +
+        (scheduleDate.getMonth() + 1) +
+        '월 ' +
+        scheduleDate.getDate() +
+        '일 ' +
+        dayNames[scheduleDate.getDay()];
+      let scheduleBgDate =
+        scheduleDate.getFullYear() +
+        ('00' + (scheduleDate.getMonth() + 1).toString()).slice(-2) +
+        ('00' + scheduleDate.getDate().toString()).slice(-2);
+
+      keyPropertyCnt++;
+
+      let mutSubListTag = [];
+      let slicedScheduleList = [];
+
+      //scheduleList는 일주일치 일정을 한번에 가져온 데이터
+      //scheduleList를 순환하면서 날짜에 맞는 걸로만 재구성
+      scheduleList.forEach((currentElement, index) => {
+        // 하루짜리 일정일 경우 시작일과 날짜가 일치하면
+        if (
+          currentElement.schdulBgnde.substring(0, 8) ===
+            currentElement.schdulEndde.substring(0, 8) &&
+          currentElement.schdulBgnde.substring(0, 8) === scheduleBgDate
+        ) {
+          slicedScheduleList.push(scheduleList[index]);
+          // 이틀 이상 일정일 경우 시작일이 날짜보다 작거나 같으면 (그리고 종료일이 날짜보다 크거나 같으면)
+        } else if (
+          currentElement.schdulBgnde.substring(0, 8) !==
+            currentElement.schdulEndde.substring(0, 8) &&
+          currentElement.schdulBgnde.substring(0, 8) <= scheduleBgDate &&
+          currentElement.schdulEndde.substring(0, 8) >= scheduleBgDate
+        ) {
+          slicedScheduleList.push(scheduleList[index]);
+        }
+      });
+
+      //재구성된 게 없으면(즉, 일주일치 일정이 없으면)
+      if (slicedScheduleList.length === 0) {
+        mutListTag.push(
+          <div className='list_item' key={keyPropertyCnt}>
+            <div>{scheduleDateStr}</div>
+            <div>
+              <span>일정이 존재하지 않습니다.</span>
+            </div>
+          </div>
+        );
+      } else {
+        mutListTag.push(
+          <div className='list_item' key={keyPropertyCnt}>
+            <div>{scheduleDateStr}</div>
+            <div>{mutSubListTag}</div>
+          </div>
+        );
+
+        let subKeyPropertyCnt = 0;
+
+        mutSubListTag.push(
+          <>
+            {slicedScheduleList.length !== 0 &&
+              slicedScheduleList.map((item) => {
+                subKeyPropertyCnt++;
+                return (
+                  <Link
+                    key={subKeyPropertyCnt}
+                    to={{ pathname: URL.INFORM_WEEKLY_DETAIL }}
+                    state={{
+                      schdulId: item.schdulId,
+                      prevPath: URL.INFORM_WEEKLY,
+                    }}
+                  >
+                    <span>
+                      {getTimeForm(item.schdulBgnde)} ~{' '}
+                      {getTimeForm(item.schdulEndde)}
+                    </span>
+                    <span>{item.schdulNm}</span>
+                    <span>{item.userNm}</span>
+                  </Link>
+                );
+              })}
+          </>
+        );
+      }
+    }
+    setListTag(mutListTag);
+  }, [
+    scheduleList,
+    searchCondition.date,
+    searchCondition.month,
+    searchCondition.year,
+  ]);
+
+  const retrieveList = useCallback(
+    (srchcnd) => {
+      console.groupCollapsed('EgovIntroSrchDown.retrieveList()');
+
+      const retrieveListURL =
+        '/schedule/week' + EgovNet.getQueryString(srchcnd);
+      const requestOptions = {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+        },
+      };
+
+      EgovNet.requestFetch(
+        retrieveListURL,
+        requestOptions,
+        (resp) => {
+          setScheduleList(resp.result.resultList);
+          drawList();
+        },
+        function (resp) {
+          console.log('err response : ', resp);
+        }
+      );
+
+      console.groupEnd('EgovIntroSrchDown.retrieveList()');
+    },
+    [drawList]
+  );
+
+  const Location = React.memo(function Location() {
+    return (
+      <div className='location'>
+        <ul>
+          <li>
+            <Link to={URL.MAIN} className='home'>
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link to={URL.INTRO}>주간보고</Link>
+          </li>
+          <li>전체조회 및 다운로드</li>
+        </ul>
+      </div>
+    );
+  });
+
+  const getTimeForm = (str) => {
+    let hour = str.substring(8, 10);
+    let starminute = str.substring(10, 12);
+    return hour + ':' + starminute;
+  };
+
+  useEffect(() => {
+    retrieveList(searchCondition);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchCondition]);
+
+  useEffect(() => {
+    drawList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scheduleList]);
+
+  console.log('----------------------------EgovIntroSrchDown [End]');
+  console.groupEnd('EgovIntroSrchDown');
+  return (
+    <div className='container'>
+      <div className='c_wrap'>
+        {/* <!-- Location --> */}
+        <Location />
+        {/* <!--// Location --> */}
+
+        <div className='layout'>
+          {/* <!-- Navigation --> */}
+          <EgovLeftNav />
+          {/* <!--// Navigation --> */}
+
+          <div className='contents WEEK_SCHEDULE' id='contents'>
+            {/* <!-- 본문 --> */}
+
+            <div className='top_tit'>
+              <h1 className='tit_1'>주간보고</h1>
+            </div>
+
+            <h2 className='tit_2'>전체조회 및 다운로드</h2>
+
+            {/* <!-- 검색조건 --> */}
+            <div className='condition'>
+              <ul>
+                <li>
+                  <button
+                    className='prev'
+                    onClick={() => {
+                      changeDate(CODE.DATE_YEAR, -1);
+                    }}
+                  ></button>
+                  <span>{searchCondition.year}년</span>
+                  <button
+                    className='next'
+                    onClick={() => {
+                      changeDate(CODE.DATE_YEAR, 1);
+                    }}
+                  ></button>
+                </li>
+                <li className='half L'>
+                  <button
+                    className='prev'
+                    onClick={() => {
+                      changeDate(CODE.DATE_MONTH, -1);
+                    }}
+                  ></button>
+                  <span>{searchCondition.month + 1}월</span>
+                  <button
+                    className='next'
+                    onClick={() => {
+                      changeDate(CODE.DATE_MONTH, 1);
+                    }}
+                  ></button>
+                </li>
+                <li className='half R'>
+                  <button
+                    className='prev'
+                    onClick={() => {
+                      changeDate(CODE.DATE_WEEK, -1);
+                    }}
+                  ></button>
+                  <span>{searchCondition.weekOfMonth + 1}주</span>
+                  <button
+                    className='next'
+                    onClick={() => {
+                      changeDate(CODE.DATE_WEEK, 1);
+                    }}
+                  ></button>
+                </li>
+                <li>
+                  <Link
+                    to={URL.INFORM_NOTICE_CREATE}
+                    //state={{ bbsId: bbsId }}
+                    className='btn btn_blue_h46 pd35'
+                  >
+                    등록
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            {/* <!--// 검색조건 --> */}
+
+            {/* <!-- 게시판목록 --> */}
+            <div className='board_list BRD004'>
+              <div className='head'>
+                <span>구분</span>
+                <span>구분상세</span>
+                <span>교육명</span>
+                <span>시작일자</span>
+                <span>종료일자</span>
+                <span>기타</span>
+              </div>
+              <div className='result'>{listTag}</div>
+            </div>
+            {/* <!--// 게시판목록 --> */}
+
+            {/* <!--// 본문 --> */}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default EgovIntroService;

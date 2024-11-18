@@ -210,7 +210,7 @@ function EgovHeader() {
             </ul>
           </div>
           <div className='col'>
-            <h3>주간업무보고</h3>
+            <h3>주간업무보고 </h3>
             <ul>
               <li>
                 <NavLink
