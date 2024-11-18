@@ -5,6 +5,14 @@ import { default as EgovLeftNav } from 'components/leftmenu/EgovLeftNavSupport';
 import URL from 'constants/url';
 
 function EgovDownloadList() {
+  const style = {
+    tbody: {
+      backgroundColor: 'black',
+      display: 'flex',
+      overflow: 'auto',
+    },
+  };
+
   return (
     <div className='container'>
       <div className='c_wrap'>
@@ -184,7 +192,7 @@ function EgovDownloadList() {
 
             {/* <!-- 게시판목록 --> */}
             <div className='board_list BRD009'>
-              <div className='head'>
+              <div className='head' /*style={style.tbody}*/>
                 <table>
                   <thead>
                     <td>
@@ -242,15 +250,6 @@ function EgovDownloadList() {
 
                   <tbody></tbody>
                 </table>
-
-                <span>현업테스트여부</span>
-                <span>형상진행여부</span>
-                <span>시스템구분</span>
-                <span>업무구분</span>
-                <span>SR번호</span>
-                <span>요청제목</span>
-                <span>담당자</span>
-                <span>요청제목</span>
               </div>
               <div className='result'> </div>
             </div>
