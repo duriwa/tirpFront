@@ -111,7 +111,7 @@ function EgovIntroWork() {
 
   useEffect(function () {
     //initMode();
-    // eslint-disable-next-line react-hooks/exhaustive-deps dddㅇㅇㅇㅇddddd
+    // eslint-disable-next-line react-hooks/exhaustive-deps dddㅇㅇㅇㅇdddddㅇㅇ
   }, []);
 
   console.log('------------------------------EgovAdminScheduleEdit [End]');

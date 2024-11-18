@@ -4,6 +4,20 @@ const URL = {
 
   LOGIN: '/login', //로그인
   ERROR: '/error', //로그인
+  ADMIN_USER: '/admin/user', // 사이트관리/사용자관리
+  ADMIN_USER_DETAIL: '/admin/user/detail', // 사이트관리/사용자관리상세
+  ADMIN_USER_CREATE: '/admin/user/create', // 사이트관리/사용자관리생성
+  ADMIN_USER_MODIFY: '/admin/userMng/modify', // 사이트관리/사용자관리수정
+
+  ADMIN_MENU: '/admin/menu', // 사이트관리/메뉴관리
+  ADMIN_MENU_DETAIL: '/admin/menu/detail', // 사이트관리/메뉴관리상세
+  ADMIN_MENU_CREATE: '/admin/menu/create', // 사이트관리/메뉴관리생성
+  ADMIN_MENU_MODIFY: '/admin/menu/modify', // 사이트관리/메뉴관리수정
+
+  ADMIN_BOARD: '/admin/board', // 사이트관리/게시판생성관리 목록
+  ADMIN_BOARD_DETAIL: '/admin/board/detail', // 사이트관리/게시판생성관리 상세
+  ADMIN_BOARD_CREATE: '/admin/board/create', // 사이트관리/게시판생성관리 등록
+  ADMIN_BOARD_MODIFY: '/admin/board/modify', // 사이트관리/게시판생성관리 상세/수정
 
   //ABOUT
   ABOUT: '/about', //사이트소개

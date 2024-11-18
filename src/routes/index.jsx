@@ -54,6 +54,13 @@ import EgovAdminScheduleEdit from 'pages/admin/schedule/EgovAdminScheduleEdit';
 import EgovAdminBoardList from 'pages/admin/board/EgovAdminBoardList';
 import EgovAdminBoardEdit from 'pages/admin/board/EgovAdminBoardEdit';
 
+import EgovAdminUserList from 'pages/admin/user/EgovAdminUserList';
+import EgovAdminUserEdit from 'pages/admin/user/EgovAdminUserEdit';
+
+import EgovAdminMenuList from 'pages/admin/menu/EgovAdminMenuList';
+import EgovAdminMenuEdit from 'pages/admin/menu/EgovAdminMenuEdit';
+// import EgovAdminMenuList from 'pages/admin/menu/MenuManagement';
+
 import EgovAdminUsageList from 'pages/admin/usage/EgovAdminUsageList';
 import EgovAdminUsageEdit from 'pages/admin/usage/EgovAdminUsageEdit';
 
@@ -247,10 +254,7 @@ const SecondRoutes = () => {
         />
 
         {/* ADMIN */}
-        <Route
-          path={URL.ADMIN}
-          element={<Navigate to={URL.ADMIN_SCHEDULE} />}
-        />
+        <Route path={URL.ADMIN} element={<Navigate to={URL.ADMIN_USER} />} />
         <Route path={URL.ADMIN_SCHEDULE} element={<EgovAdminScheduleList />} />
         <Route
           path={URL.ADMIN_SCHEDULE_DETAIL}
@@ -273,6 +277,26 @@ const SecondRoutes = () => {
         <Route
           path={URL.ADMIN_BOARD_MODIFY}
           element={<EgovAdminBoardEdit mode={CODE.MODE_MODIFY} />}
+        />
+        {/* Deprecated method list(String, Object) from EgovAbstractMapper is replaced with selectList(String, Object) */}
+        <Route path={URL.ADMIN_USER} element={<EgovAdminUserList />} />
+        <Route
+          path={URL.ADMIN_USER_CREATE}
+          element={<EgovAdminUserEdit mode={CODE.MODE_CREATE} />}
+        />
+        <Route
+          path={URL.ADMIN_USER_MODIFY}
+          element={<EgovAdminUserEdit mode={CODE.MODE_MODIFY} />}
+        />
+
+        <Route path={URL.ADMIN_MENU} element={<EgovAdminMenuList />} />
+        <Route
+          path={URL.ADMIN_MENU_CREATE}
+          element={<EgovAdminMenuEdit mode={CODE.MODE_CREATE} />}
+        />
+        <Route
+          path={URL.ADMIN_MENU_MODIFY}
+          element={<EgovAdminMenuEdit mode={CODE.MODE_MODIFY} />}
         />
 
         <Route path={URL.ADMIN_USAGE} element={<EgovAdminUsageList />} />

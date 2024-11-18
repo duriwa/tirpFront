@@ -214,7 +214,7 @@ function EgovHeader() {
             <ul>
               <li>
                 <NavLink
-                  to={URL.INTRO_WORKSLIST}
+                  to={URL.INTRO_WORKS}
                   className={({ isActive }) => (isActive ? 'cur' : '')}
                 >
                   주간보고관리
@@ -397,16 +397,16 @@ function EgovHeader() {
             </ul>
           </div>
           <h3>
-            <Link to={URL.INTRO}>정보마당 </Link>
+            <Link to={URL.INTRO}>정보마당</Link>
           </h3>
           <div className='submenu closed'>
             <ul>
               <li>
                 <NavLink
-                  to={URL.INTRO_WORKSLIST}
+                  to={URL.INTRO_WORKS}
                   className={({ isActive }) => (isActive ? 'cur' : '')}
                 >
-                  주간보고
+                  주요사업 소개
                 </NavLink>
               </li>
               <li>
@@ -414,15 +414,7 @@ function EgovHeader() {
                   to={URL.INTRO_SERVICE}
                   className={({ isActive }) => (isActive ? 'cur' : '')}
                 >
-                  기타(교육, 휴가)
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to={URL.INTRO_SERCH_DOWN}
-                  className={({ isActive }) => (isActive ? 'cur' : '')}
-                >
-                  전체 조회 및 다운로드
+                  대표서비스 소개
                 </NavLink>
               </li>
             </ul>
