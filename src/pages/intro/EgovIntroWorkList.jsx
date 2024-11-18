@@ -368,7 +368,7 @@ function EgovIntroSrchDown(props) {
                 </li>
               </ul>
             </div>
-            {/* <!--// 검색조건 --> */}
+            {/* <!--// 검색조건 2--> */}
 
             {/* <!-- 게시판목록 --> */}
             <div className='board_list BRD004'>

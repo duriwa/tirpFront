@@ -397,7 +397,7 @@ function EgovHeader() {
             </ul>
           </div>
           <h3>
-            <Link to={URL.INTRO}>정보마당</Link>
+            <Link to={URL.INTRO}>정보마당 </Link>
           </h3>
           <div className='submenu closed'>
             <ul>

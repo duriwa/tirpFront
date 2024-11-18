@@ -104,7 +104,7 @@ function EgovNoticeEdit(props) {
         setBoardDetail(resp.result.boardVO);
       }
 
-      // 초기 setBoardAttachFiles 설정 => (수정) 모드 일때...
+      // 초기 setBoardAttachFiles 설정 => (수정) 모드 일때...3
       if (modeInfo.mode === CODE.MODE_MODIFY) {
         setBoardAttachFiles(resp.result.resultFiles);
       }
