@@ -6,21 +6,16 @@ import * as EgovNet from 'api/egovFetch';
 import URL from 'constants/url';
 import CODE from 'constants/code';
 
-import { default as EgovLeftNav } from 'components/leftmenu/EgovLeftNavAdmin';
-import EgovAttachFile from 'components/EgovAttachFile';
+import { default as EgovLeftNav } from 'components/leftmenu/EgovLeftNavIntro';
 
+import EgovAttachFile from 'components/EgovAttachFile';
 import 'react-datepicker/dist/react-datepicker.css';
 
-function EgovAdminScheduleEdit(props) {
-  console.group('EgovAdminScheduleEdit');
-  console.log('[Start] EgovAdminScheduleEdit ------------------------------');
-  console.log('EgovAdminScheduleEdit [props] : ', props);
-
+function EgovIntroWork() {
   const navigate = useNavigate();
   const location = useLocation();
   console.log('EgovAdminScheduleEdit [location] : ', location);
 
-  const [modeInfo, setModeInfo] = useState({ mode: props.mode });
   const [scheduleDetail, setScheduleDetail] = useState({
     schdulDeptName: '관리자부서',
     schdulChargerName: '관리자',
@@ -30,30 +25,6 @@ function EgovAdminScheduleEdit(props) {
     endDate: new Date(),
   });
   const [boardAttachFiles, setBoardAttachFiles] = useState();
-
-  const initMode = () => {
-    switch (props.mode) {
-      case CODE.MODE_CREATE:
-        setModeInfo({
-          ...modeInfo,
-          modeTitle: '등록',
-          method: 'POST',
-          editURL: '/schedule',
-        });
-        break;
-      case CODE.MODE_MODIFY:
-        setModeInfo({
-          ...modeInfo,
-          modeTitle: '수정',
-          method: 'PUT',
-          editURL: '/schedule',
-        });
-        break;
-      default:
-        navigate({ pathname: URL.ERROR }, { state: { msg: '' } });
-    }
-    retrieveDetail();
-  };
 
   const convertDate = (str) => {
     let year = str.substring(0, 4);
@@ -65,18 +36,6 @@ function EgovAdminScheduleEdit(props) {
   };
 
   const retrieveDetail = () => {
-    if (modeInfo.mode === CODE.MODE_CREATE) {
-      // 조회/등록이면 조회 안함
-      setScheduleDetail({
-        ...scheduleDetail,
-        schdulBgnde: location.state.iUseDate,
-        schdulEndde: location.state.iUseDate,
-        startDate: convertDate(location.state.iUseDate),
-        endDate: convertDate(location.state.iUseDate),
-      });
-      return;
-    }
-
     const retrieveDetailURL = `/schedule/${location.state?.schdulId}`;
     const requestOptions = {
       method: 'GET',
@@ -96,37 +55,6 @@ function EgovAdminScheduleEdit(props) {
       });
       setBoardAttachFiles(resp.result.resultFiles);
     });
-  };
-
-  const updateSchedule = () => {
-    const formData = new FormData();
-
-    for (let key in scheduleDetail) {
-      formData.append(key, scheduleDetail[key]);
-      console.log('scheduleDetail [%s] ', key, scheduleDetail[key]);
-    }
-
-    if (formValidator(formData)) {
-      const requestOptions = {
-        method: modeInfo.method,
-        body: formData,
-      };
-
-      if (modeInfo.mode === CODE.MODE_MODIFY) {
-        modeInfo.editURL = `${modeInfo.editURL}/${location.state?.schdulId}`;
-      }
-
-      EgovNet.requestFetch(modeInfo.editURL, requestOptions, (resp) => {
-        if (Number(resp.resultCode) === Number(CODE.RCV_SUCCESS)) {
-          navigate({ pathname: URL.ADMIN_SCHEDULE });
-        } else {
-          navigate(
-            { pathname: URL.ERROR },
-            { state: { msg: resp.resultMessage } }
-          );
-        }
-      });
-    }
   };
 
   const formValidator = (formData) => {
@@ -182,7 +110,7 @@ function EgovAdminScheduleEdit(props) {
   };
 
   useEffect(function () {
-    initMode();
+    //initMode();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -219,9 +147,7 @@ function EgovAdminScheduleEdit(props) {
               <h1 className='tit_1'>사이트관리</h1>
             </div>
 
-            <h2 className='tit_2'>
-              일정관리 상세보기1 EgoAdminScheduleEdit.jsx
-            </h2>
+            <h2 className='tit_2'>일정관리 상세보기 EgoIntroWork.jsx</h2>
 
             {/* <!-- 게시판 상세보기 --> */}
             <div className='board_view2'>
@@ -495,7 +421,7 @@ function EgovAdminScheduleEdit(props) {
                   setBoardAttachFiles(deletedFile);
                 }}
                 boardFiles={boardAttachFiles}
-                mode={props.mode}
+                //mode={props.mode}
               />
 
               {/* <!-- 버튼영역 --> */}
@@ -503,10 +429,10 @@ function EgovAdminScheduleEdit(props) {
                 <div className='left_col btn1'>
                   <button
                     className='btn btn_skyblue_h46 w_100'
-                    onClick={() => updateSchedule()}
+                    onClick={() => console.log('33')}
                   >
                     {' '}
-                    저장
+                    저장!
                   </button>
                   <a href='#!' className='btn btn_skyblue_h46 w_100'>
                     삭제
@@ -514,10 +440,7 @@ function EgovAdminScheduleEdit(props) {
                 </div>
 
                 <div className='right_col btn1'>
-                  <Link
-                    to={URL.ADMIN_SCHEDULE}
-                    className='btn btn_blue_h46 w_100'
-                  >
+                  <Link to={URL.INTRO} className='btn btn_blue_h46 w_100'>
                     목록
                   </Link>
                 </div>
@@ -534,4 +457,4 @@ function EgovAdminScheduleEdit(props) {
   );
 }
 
-export default EgovAdminScheduleEdit;
+export default EgovIntroWork;

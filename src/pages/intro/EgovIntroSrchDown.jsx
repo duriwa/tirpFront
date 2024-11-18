@@ -7,9 +7,11 @@ import CODE from 'constants/code';
 
 import { default as EgovLeftNav } from 'components/leftmenu/EgovLeftNavIntro';
 
-function EgovIntroService(props) {
+function EgovIntroSrchDown(props) {
+  console.log(props);
+  console.log('props end');
   const location = useLocation();
-  console.log('EgovIntroService [location] : ', location);
+  console.log('EgovIntroSrchDown [location] : ', location);
 
   const DATE = new Date();
   const FIRST_DAY_OF_THIS_WEEK = new Date(
@@ -101,7 +103,7 @@ function EgovIntroService(props) {
     let mutListTag = [];
 
     let keyPropertyCnt = 0;
-    // 리스트 항목 구성
+    // 리스트 항목 구성33
     for (let dayIdx = 0; dayIdx < 7; dayIdx++) {
       let scheduleDate = new Date(
         searchCondition.year,
@@ -242,9 +244,9 @@ function EgovIntroService(props) {
             </Link>
           </li>
           <li>
-            <Link to={URL.INTRO}>기타(교육, 휴가)</Link>
+            <Link to={URL.INTRO}>주간보고</Link>
           </li>
-          <li>조회</li>
+          <li>조회 및 다운로드</li>
         </ul>
       </div>
     );
@@ -284,14 +286,36 @@ function EgovIntroService(props) {
             {/* <!-- 본문 --> */}
 
             <div className='top_tit'>
-              <h1 className='tit_1'>기타(교육, 휴가)</h1>
+              <h1 className='tit_1'>주간보고</h1>
             </div>
 
-            <h2 className='tit_2'>조회</h2>
+            <h2 className='tit_2'>조회 및 다운로드</h2>
 
             {/* <!-- 검색조건 --> */}
             <div className='condition'>
               <ul>
+                <li>
+                  <label className='f_select' htmlFor='sel1'>
+                    <select
+                      name=''
+                      id='sel1'
+                      title='조건'
+                      onChange={(e) => {
+                        setSearchCondition({
+                          ...searchCondition,
+                          schdulSe: e.target.value,
+                        });
+                      }}
+                    >
+                      <option value=''>전체</option>
+                      <option value='1'>회의</option>
+                      <option value='2'>세미나</option>
+                      <option value='3'>강의</option>
+                      <option value='4'>교육</option>
+                      <option value='5'>기타</option>
+                    </select>
+                  </label>
+                </li>
                 <li>
                   <button
                     className='prev'
@@ -337,18 +361,9 @@ function EgovIntroService(props) {
                     }}
                   ></button>
                 </li>
-                <li>
-                  <Link
-                    to={URL.INFORM_NOTICE_CREATE}
-                    //state={{ bbsId: bbsId }}
-                    className='btn btn_blue_h46 pd35'
-                  >
-                    등록
-                  </Link>
-                </li>
               </ul>
             </div>
-            {/* <!--// 검색조건3 3--> */}
+            {/* <!--// 검색조건 --> */}
 
             {/* <!-- 게시판목록 --> */}
             <div className='board_list BRD004'>
@@ -372,4 +387,4 @@ function EgovIntroService(props) {
   );
 }
 
-export default EgovIntroService;
+export default EgovIntroSrchDown;
