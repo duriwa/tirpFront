@@ -7,7 +7,7 @@ function EgovLeftNavIntro() {
   return (
     <div className='nav'>
       <div className='inner'>
-        <h2>주간보고 </h2>
+        <h2>주간보고</h2>
         <ul className='menu4'>
           <li>
             <NavLink

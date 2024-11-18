@@ -166,7 +166,7 @@ function EgovMain(props) {
               <h2>티아이리포트 소개 </h2>
               <p>티아이리포트의 주요 서비스를 소개합니다.</p>
             </div>
-            <Link to={URL.INTRO_WORKSLIST}>자세히 보기 </Link>
+            <Link to={URL.INTRO_WORKSLIST}>자세히 보기</Link>
           </div>
           <div className='b2'>
             <div>

@@ -432,7 +432,7 @@ function EgovIntroWork() {
                     onClick={() => console.log('33')}
                   >
                     {' '}
-                    저장2
+                    저장!
                   </button>
                   <a href='#!' className='btn btn_skyblue_h46 w_100'>
                     삭제

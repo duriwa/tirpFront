@@ -103,7 +103,7 @@ function EgovIntroSrchDown(props) {
     let mutListTag = [];
 
     let keyPropertyCnt = 0;
-    // 리스트 항목 구성3
+    // 리스트 항목 구성33
     for (let dayIdx = 0; dayIdx < 7; dayIdx++) {
       let scheduleDate = new Date(
         searchCondition.year,

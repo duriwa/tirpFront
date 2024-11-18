@@ -164,7 +164,7 @@ const SecondRoutes = () => {
         />
         <Route path={URL.ABOUT_LOCATION} element={<EgovAboutLocation />} />
 
-        {/* INTRO dㅇ*/}
+        {/* INTRO dㅇd*/}
         <Route path={URL.INTRO_WORKSLIST} element={<EgovIntroWorkList />} />
         <Route path={URL.INTRO_WORKS} element={<EgovIntroWork />} />
         <Route path={URL.INTRO_SERVICE} element={<EgovIntroService />} />
