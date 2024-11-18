@@ -177,7 +177,7 @@ function EgovMain(props) {
                 <br />
               </p>
             </div>
-            <Link to={URL.INTRO_SERVICE}>자세히 보기</Link>
+            <Link to={URL.INTRO_WORKSLIST}>자세히 보기</Link>
           </div>
           <div className='b3'>
             <div>

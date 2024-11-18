@@ -242,9 +242,9 @@ function EgovIntroService(props) {
             </Link>
           </li>
           <li>
-            <Link to={URL.INTRO}>주간보고</Link>
+            <Link to={URL.INTRO}>기타(교육, 휴가)</Link>
           </li>
-          <li>전체조회 및 다운로드</li>
+          <li>조회</li>
         </ul>
       </div>
     );
@@ -284,10 +284,10 @@ function EgovIntroService(props) {
             {/* <!-- 본문 --> */}
 
             <div className='top_tit'>
-              <h1 className='tit_1'>주간보고</h1>
+              <h1 className='tit_1'>기타(교육, 휴가)</h1>
             </div>
 
-            <h2 className='tit_2'>전체조회 및 다운로드</h2>
+            <h2 className='tit_2'>조회</h2>
 
             {/* <!-- 검색조건 --> */}
             <div className='condition'>
