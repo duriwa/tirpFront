@@ -13,7 +13,7 @@ function MenuManagement() {
     const [newMenu, setNewMenu] = useState({ name: '', url: '' });
 
     const fetchMenuList = useCallback(() => {
-        const fetchURL = '/menuMng';
+        const fetchURL = '/menu';
         const requestOptions = {
             method: "GET",
             headers: {
@@ -26,8 +26,8 @@ function MenuManagement() {
         });
     }, []);
 
-    const addMenu = useCallback(() => {
-        const addURL = '/menuMng/add';
+    const insertMenuInf = useCallback(() => {
+        const addURL = '/menu/insertMenuInf';
         const requestOptions = {
             method: "POST",
             headers: {
@@ -39,7 +39,7 @@ function MenuManagement() {
         EgovNet.requestFetch(addURL, requestOptions, (resp) => {
             if (resp.result.success) {
                 fetchMenuList();
-                setNewMenu({ name: '', url: '' });
+                setNewMenu({ menuNm: '', url: '' });
             }
         });
     }, [newMenu, fetchMenuList]);
@@ -55,8 +55,8 @@ function MenuManagement() {
                 <input
                     type="text"
                     placeholder="메뉴 이름"
-                    value={newMenu.name}
-                    onChange={(e) => setNewMenu({ ...newMenu, name: e.target.value })}
+                    value={newMenu.menuNm}
+                    onChange={(e) => setNewMenu({ ...newMenu, menuNm: e.target.value })}
                 />
                 <input
                     type="text"
@@ -64,15 +64,15 @@ function MenuManagement() {
                     value={newMenu.url}
                     onChange={(e) => setNewMenu({ ...newMenu, url: e.target.value })}
                 />
-                <button onClick={addMenu}>메뉴 추가</button>
+                <button onClick={insertMenuInf}>메뉴 추가</button>
             </div>
-            <ul>
+            {/* <ul>
                 {menuList.map((menu, index) => (
                     <li key={index}>
                         {menu.name} - {menu.url}
                     </li>
                 ))}
-            </ul>
+            </ul> */}
         </div>
     );
 }
