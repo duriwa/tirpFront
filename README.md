@@ -7,7 +7,7 @@
 ![cra](https://img.shields.io/badge/createreactapp-09D3AC?style=for-the-badge&logo=createreactapp&logoColor=black)  
 ![workflow](https://github.com/eGovFramework/egovframe-template-simple-react/actions/workflows/node.js.yml/badge.svg)
 
-※ 본 프로젝트는 기존 JSP 뷰 방식에서 벗어나 BackEnd와 FrontEnd를 분리하기 위한 예시 파일로 참고만 하시길 바랍니다.  
+※ 본 프로젝트는 기존 JSP 뷰 방식에서 벗어나 BackEnd와 FrontEnd를 분리하기 위한 예시 파일로 참고만 하시길 바랍니다.
 
 ## 프로젝트 소개
 
@@ -137,3 +137,5 @@ npm start
 
 1. [Available scripts in CRA](./Docs/create-react-app-script.md)
 2. [개발환경 초기 설정](./Docs/development-env-setting.md)
+
+커밋 테스트

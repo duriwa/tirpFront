@@ -7,18 +7,18 @@ import URL from 'constants/url';
 import CODE from 'constants/code';
 import { NOTICE_BBS_ID } from 'config';
 
-import { default as EgovLeftNav } from 'components/leftmenu/EgovLeftNavAdmin';
+import { default as EgovLeftNav } from 'components/leftmenu/EgovLeftNavInform';
 import EgovAttachFile from 'components/EgovAttachFile';
 import bbsFormVaildator from 'utils/bbsFormVaildator';
 
-function EgovAdminNoticeEdit(props) {
-  console.group('EgovAdminNoticeEdit');
+function EgovNoticeEdit(props) {
+  console.group('EgovNoticeEdit');
   console.log('------------------------------');
-  console.log('EgovAdminNoticeEdit [props] : ', props);
+  console.log('EgovNoticeEdit [props] : ', props);
 
   const navigate = useNavigate();
   const location = useLocation();
-  console.log('EgovAdminNoticeEdit [location] : ', location);
+  console.log('EgovNoticeEdit [location] : ', location);
 
   const bbsId = location.state?.bbsId || NOTICE_BBS_ID;
   const nttId = location.state?.nttId || '';
@@ -28,7 +28,7 @@ function EgovAdminNoticeEdit(props) {
   const [boardDetail, setBoardDetail] = useState({ nttSj: '', nttCn: '' });
   const [boardAttachFiles, setBoardAttachFiles] = useState();
 
-  const intMode = () => {
+  const initMode = () => {
     switch (props.mode) {
       case CODE.MODE_CREATE:
         setModeInfo({
@@ -104,7 +104,7 @@ function EgovAdminNoticeEdit(props) {
         setBoardDetail(resp.result.boardVO);
       }
 
-      // 초기 setBoardAttachFiles 설정 => (수정) 모드 일때...
+      // 초기 setBoardAttachFiles 설정 => (수정) 모드 일때...33
       if (modeInfo.mode === CODE.MODE_MODIFY) {
         setBoardAttachFiles(resp.result.resultFiles);
       }
@@ -126,7 +126,7 @@ function EgovAdminNoticeEdit(props) {
 
       EgovNet.requestFetch(modeInfo.editURL, requestOptions, (resp) => {
         if (Number(resp.resultCode) === Number(CODE.RCV_SUCCESS)) {
-          navigate(URL.ADMIN_NOTICE, { state: { bbsId: bbsId } });
+          navigate(URL.INFORM_NOTICE, { state: { bbsId: bbsId } });
         } else {
           // alert("ERR : " + resp.message);
           navigate(
@@ -157,11 +157,11 @@ function EgovAdminNoticeEdit(props) {
   });
 
   useEffect(function () {
-    intMode();
+    initMode();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.groupEnd('EgovAdminNoticeEdit');
+  console.groupEnd('EgovNoticeEdit');
 
   return (
     <div className='container'>
@@ -179,7 +179,7 @@ function EgovAdminNoticeEdit(props) {
             {/* <!-- 본문 --> */}
 
             <div className='top_tit'>
-              <h1 className='tit_1'>사이트관리</h1>
+              <h1 className='tit_1'>알림마당</h1>
             </div>
 
             <h2 className='tit_2'>
@@ -210,7 +210,7 @@ function EgovAdminNoticeEdit(props) {
               <dl>
                 <dt>
                   <label htmlFor='nttCn'>
-                    내용 <span className='req'>필수</span>
+                    내용<span className='req'>필수</span>
                   </label>
                 </dt>
                 <dd>
@@ -255,21 +255,21 @@ function EgovAdminNoticeEdit(props) {
               {/* <!-- 버튼영역 --> */}
               <div className='board_btn_area'>
                 <div className='left_col btn1'>
-                  <a
-                    href='#!'
+                  <button
                     className='btn btn_skyblue_h46 w_100'
-                    onClick={(e) => {
-                      updateBoard();
-                    }}
+                    onClick={() => updateBoard()}
                   >
                     저장
-                  </a>
+                  </button>
                 </div>
 
                 <div className='right_col btn1'>
-                  <a href={URL.ADMIN_NOTICE} className='btn btn_blue_h46 w_100'>
+                  <Link
+                    to={URL.INFORM_NOTICE}
+                    className='btn btn_blue_h46 w_100'
+                  >
                     목록
-                  </a>
+                  </Link>
                 </div>
               </div>
               {/* <!--// 버튼영역 --> */}
@@ -283,4 +283,4 @@ function EgovAdminNoticeEdit(props) {
   );
 }
 
-export default EgovAdminNoticeEdit;
+export default EgovIntroServiceEdit;
