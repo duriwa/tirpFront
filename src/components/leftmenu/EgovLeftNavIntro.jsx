@@ -11,7 +11,7 @@ function EgovLeftNavIntro() {
         <ul className='menu4'>
           <li>
             <NavLink
-              to={URL.INTRO_WORKS}
+              to={URL.INTRO_WORKSLIST}
               className={({ isActive }) => (isActive ? 'cur' : '')}
             >
               주간보고

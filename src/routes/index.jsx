@@ -20,8 +20,10 @@ import EgovAboutOrganization from 'pages/about/EgovAboutOrganization';
 import EgovAboutLocation from 'pages/about/EgovAboutLocation';
 
 //INTRO
-import EgovIntroWork from 'pages/intro/EgovIntroWork';
+import EgovIntroWork from 'pages/intro/report/EgovIntroWork';
+import EgovIntroWorkList from 'pages/intro/EgovIntroWorkList';
 import EgovIntroService from 'pages/intro/EgovIntroService';
+import EgovIntroSrchDown from 'pages/intro/EgovIntroSrchDown';
 
 //SUPPORT
 import EgovSupportDownloadList from 'pages/support/download/EgovDownloadList';
@@ -73,12 +75,12 @@ const RootRoutes = () => {
 
   //리액트에서 사이트관리자에 접근하는 토큰값 위변조 방지용으로 서버에서 비교하는 함수 추가
   const jwtAuthentication = useCallback(() => {
-    console.group("jwtAuthentication");
-    console.log("[Start] jwtAuthentication ------------------------------");
+    console.group('jwtAuthentication');
+    console.log('[Start] jwtAuthentication ------------------------------');
 
-    const jwtAuthURL = "/jwtAuthAPI";
+    const jwtAuthURL = '/jwtAuthAPI';
     let requestOptions = {
-      method: "POST",
+      method: 'POST',
     };
 
     EgovNet.requestFetch(jwtAuthURL, requestOptions, (resp) => {
@@ -89,35 +91,37 @@ const RootRoutes = () => {
       }
     });
 
-    console.log("------------------------------jwtAuthentication [End]");
-    console.groupEnd("jwtAuthentication");
+    console.log('------------------------------jwtAuthentication [End]');
+    console.groupEnd('jwtAuthentication');
   }, []);
 
   //시스템관리 메뉴인 /admin/으로 시작하는 URL은 모두 로그인이 필요하도록 코드추가(아래)
   const isMounted = useRef(false); // 아래 로그인 이동 부분이 2번 실행되지 않도록 즉, 마운트 될 때만 실행되도록 변수 생성
-  const [mounted, setMounted] = useState(false);// 컴포넌트 최초 마운트 후 리렌더링 전 로그인 페이지로 이동하는 조건으로 사용
+  const [mounted, setMounted] = useState(false); // 컴포넌트 최초 마운트 후 리렌더링 전 로그인 페이지로 이동하는 조건으로 사용
 
   useEffect(() => {
-	if (!isMounted.current) { // 컴포넌트 최초 마운트 시 페이지 진입 전(렌더링 전) 실행
-		isMounted.current = true; // 이 값으로 true 일 때만 페이지를 렌더링이 되는 변수 사용.
-		setMounted(true); // 이 값으로 true 일 때만 페이지를 렌더링이 되는 변수 사용.
-		const regex = /^(\/admin\/)+(.)*$/; //정규표현식 사용: /admin/~ 으로 시작하는 경로 모두 포함
-		if(regex.test(location.pathname)) {
-			setMounted(false); // 이 값으로 true 일 때만 페이지를 렌더링이 되는 변수 사용. 기본은 숨기기
-			jwtAuthentication(); // 이 함수에서 관리자단 인증여부 확인 후 렌더링 처리
-		}
-	}
-  },[jwtAuthentication, location, mounted]); // location 경로와 페이지 마운트상태가 변경 될 때 업데이트 후 리렌더링
+    if (!isMounted.current) {
+      // 컴포넌트 최초 마운트 시 페이지 진입 전(렌더링 전) 실행
+      isMounted.current = true; // 이 값으로 true 일 때만 페이지를 렌더링이 되는 변수 사용.
+      setMounted(true); // 이 값으로 true 일 때만 페이지를 렌더링이 되는 변수 사용.
+      const regex = /^(\/admin\/)+(.)*$/; //정규표현식 사용: /admin/~ 으로 시작하는 경로 모두 포함
+      if (regex.test(location.pathname)) {
+        setMounted(false); // 이 값으로 true 일 때만 페이지를 렌더링이 되는 변수 사용. 기본은 숨기기
+        jwtAuthentication(); // 이 함수에서 관리자단 인증여부 확인 후 렌더링 처리
+      }
+    }
+  }, [jwtAuthentication, location, mounted]); // location 경로와 페이지 마운트상태가 변경 될 때 업데이트 후 리렌더링
 
-  if(mounted) { // 인증 없이 시스템관리 URL로 접근할 때 렌더링 되는 것을 방지하는 조건추가. 
-	  return (
-	      <Routes>
-	        <Route path={URL.ERROR} element={<EgovError />} />
-	        <Route path="*" element={<SecondRoutes/>} />
-	      </Routes>
-	  )
+  if (mounted) {
+    // 인증 없이 시스템관리 URL로 접근할 때 렌더링 되는 것을 방지하는 조건추가.
+    return (
+      <Routes>
+        <Route path={URL.ERROR} element={<EgovError />} />
+        <Route path='*' element={<SecondRoutes />} />
+      </Routes>
+    );
   }
-}
+};
 
 const SecondRoutes = () => {
   // eslint-disable-next-line no-unused-vars
@@ -126,13 +130,14 @@ const SecondRoutes = () => {
   //useRef객체를 사용하여 페이지 마운트 된 후 ui.js를 로딩 하도록 변경 코드 추가(아래)
   const isMounted = useRef(false); // 아래 로그인 이동 부분이 2번 실행되지 않도록 즉, 마운트 될 때만 실행되도록 변수 생성
   useEffect(() => {
-    if (!isMounted.current) { // 컴포넌트 최초 마운트 시 페이지 진입 전(렌더링 전) 실행
-		isMounted.current = true; // 이 값으로 true 일 때만 페이지를 렌더링이 되는 변수 사용.
-	}else{
-		initPage();
-	}
-  },[]);
-  
+    if (!isMounted.current) {
+      // 컴포넌트 최초 마운트 시 페이지 진입 전(렌더링 전) 실행
+      isMounted.current = true; // 이 값으로 true 일 때만 페이지를 렌더링이 되는 변수 사용.
+    } else {
+      initPage();
+    }
+  }, []);
+
   return (
     <>
       <EgovHeader />
@@ -141,9 +146,10 @@ const SecondRoutes = () => {
         <Route path={URL.MAIN} element={<EgovMain />} />
 
         {/* LOGIN */}
-        <Route path={URL.LOGIN} element={<EgovLogin
-                onChangeLogin={(user) => setLoginVO(user)}
-              />}/>
+        <Route
+          path={URL.LOGIN}
+          element={<EgovLogin onChangeLogin={(user) => setLoginVO(user)} />}
+        />
 
         {/* ERROR */}
         <Route path={URL.ERROR} element={<EgovError />} />
@@ -152,23 +158,50 @@ const SecondRoutes = () => {
         <Route path={URL.ABOUT} element={<Navigate to={URL.ABOUT_SITE} />} />
         <Route path={URL.ABOUT_SITE} element={<EgovAboutSite />} />
         <Route path={URL.ABOUT_HISTORY} element={<EgovAboutHistory />} />
-        <Route path={URL.ABOUT_ORGANIZATION} element={<EgovAboutOrganization />} />
+        <Route
+          path={URL.ABOUT_ORGANIZATION}
+          element={<EgovAboutOrganization />}
+        />
         <Route path={URL.ABOUT_LOCATION} element={<EgovAboutLocation />} />
 
         {/* INTRO */}
-        <Route path={URL.INTRO} element={<Navigate to={URL.INTRO_WORKS} />} />
+        <Route path={URL.INTRO_WORKSLIST} element={<EgovIntroWorkList />} />
         <Route path={URL.INTRO_WORKS} element={<EgovIntroWork />} />
         <Route path={URL.INTRO_SERVICE} element={<EgovIntroService />} />
+        <Route
+          path={URL.INTRO_SERVICE_EDIT}
+          // element={<EgovIntroServiceEdit />}
+        />
+        <Route path={URL.INTRO_SERCH_DOWN} element={<EgovIntroSrchDown />} />
+        <Route
+          path={URL.INTRO_SERVICE_CREATE}
+          // element={<EgovIntroServiceEdit mode={CODE.MODE_CREATE} />}
+        />
 
         {/* SUPPORT */}
-        <Route path={URL.SUPPORT} element={<Navigate to={URL.SUPPORT_DOWNLOAD} />} />
+        <Route
+          path={URL.SUPPORT}
+          element={<Navigate to={URL.SUPPORT_DOWNLOAD} />}
+        />
 
-        <Route path={URL.SUPPORT_DOWNLOAD} element={<EgovSupportDownloadList />} />
-        <Route path={URL.SUPPORT_DOWNLOAD_DETAIL} element={<EgovSupportDownloadDetail />} />
-        <Route path={URL.SUPPORT_DOWNLOAD_CREATE} element={<EgovSupportDownloadCreate />} />
+        <Route
+          path={URL.SUPPORT_DOWNLOAD}
+          element={<EgovSupportDownloadList />}
+        />
+        <Route
+          path={URL.SUPPORT_DOWNLOAD_DETAIL}
+          element={<EgovSupportDownloadDetail />}
+        />
+        <Route
+          path={URL.SUPPORT_DOWNLOAD_CREATE}
+          element={<EgovSupportDownloadCreate />}
+        />
 
         <Route path={URL.SUPPORT_QNA} element={<EgovSupportQnaList />} />
-        <Route path={URL.SUPPORT_QNA_DETAIL} element={<EgovSupportQnaDetail />} />
+        <Route
+          path={URL.SUPPORT_QNA_DETAIL}
+          element={<EgovSupportQnaDetail />}
+        />
 
         <Route path={URL.SUPPORT_APPLY} element={<EgovSupportApply />} />
 
@@ -182,52 +215,118 @@ const SecondRoutes = () => {
 
         <Route path={URL.INFORM_NOTICE} element={<EgovNoticeList />} />
         <Route path={URL.INFORM_NOTICE_DETAIL} element={<EgovNoticeDetail />} />
-        <Route path={URL.INFORM_NOTICE_CREATE} element={<EgovNoticeEdit mode={CODE.MODE_CREATE} />} />
-        <Route path={URL.INFORM_NOTICE_MODIFY} element={<EgovNoticeEdit mode={CODE.MODE_MODIFY} />} />
-        <Route path={URL.INFORM_NOTICE_REPLY} element={<EgovNoticeEdit mode={CODE.MODE_REPLY} />} />
+        <Route
+          path={URL.INFORM_NOTICE_CREATE}
+          element={<EgovNoticeEdit mode={CODE.MODE_CREATE} />}
+        />
+        <Route
+          path={URL.INFORM_NOTICE_MODIFY}
+          element={<EgovNoticeEdit mode={CODE.MODE_MODIFY} />}
+        />
+        <Route
+          path={URL.INFORM_NOTICE_REPLY}
+          element={<EgovNoticeEdit mode={CODE.MODE_REPLY} />}
+        />
 
         <Route path={URL.INFORM_GALLERY} element={<EgovGalleryList />} />
-        <Route path={URL.INFORM_GALLERY_DETAIL} element={<EgovGalleryDetail />} />
-        <Route path={URL.INFORM_GALLERY_CREATE} element={<EgovGalleryEdit mode={CODE.MODE_CREATE} />} />
-        <Route path={URL.INFORM_GALLERY_MODIFY} element={<EgovGalleryEdit mode={CODE.MODE_MODIFY} />} />
-        <Route path={URL.INFORM_GALLERY_REPLY} element={<EgovGalleryEdit mode={CODE.MODE_REPLY} />} />
+        <Route
+          path={URL.INFORM_GALLERY_DETAIL}
+          element={<EgovGalleryDetail />}
+        />
+        <Route
+          path={URL.INFORM_GALLERY_CREATE}
+          element={<EgovGalleryEdit mode={CODE.MODE_CREATE} />}
+        />
+        <Route
+          path={URL.INFORM_GALLERY_MODIFY}
+          element={<EgovGalleryEdit mode={CODE.MODE_MODIFY} />}
+        />
+        <Route
+          path={URL.INFORM_GALLERY_REPLY}
+          element={<EgovGalleryEdit mode={CODE.MODE_REPLY} />}
+        />
 
         {/* ADMIN */}
-        <Route path={URL.ADMIN} element={<Navigate to={URL.ADMIN_SCHEDULE} />} />
+        <Route
+          path={URL.ADMIN}
+          element={<Navigate to={URL.ADMIN_SCHEDULE} />}
+        />
         <Route path={URL.ADMIN_SCHEDULE} element={<EgovAdminScheduleList />} />
-        <Route path={URL.ADMIN_SCHEDULE_DETAIL} element={<EgovAdminScheduleDetail />} />
-        <Route path={URL.ADMIN_SCHEDULE_CREATE} element={<EgovAdminScheduleEdit mode={CODE.MODE_CREATE} />} />
-        <Route path={URL.ADMIN_SCHEDULE_MODIFY} element={<EgovAdminScheduleEdit mode={CODE.MODE_MODIFY} />} />
+        <Route
+          path={URL.ADMIN_SCHEDULE_DETAIL}
+          element={<EgovAdminScheduleDetail />}
+        />
+        <Route
+          path={URL.ADMIN_SCHEDULE_CREATE}
+          element={<EgovAdminScheduleEdit mode={CODE.MODE_CREATE} />}
+        />
+        <Route
+          path={URL.ADMIN_SCHEDULE_MODIFY}
+          element={<EgovAdminScheduleEdit mode={CODE.MODE_MODIFY} />}
+        />
 
         <Route path={URL.ADMIN_BOARD} element={<EgovAdminBoardList />} />
-        <Route path={URL.ADMIN_BOARD_CREATE} element={<EgovAdminBoardEdit mode={CODE.MODE_CREATE} />} />
-        <Route path={URL.ADMIN_BOARD_MODIFY} element={<EgovAdminBoardEdit mode={CODE.MODE_MODIFY} />} />
+        <Route
+          path={URL.ADMIN_BOARD_CREATE}
+          element={<EgovAdminBoardEdit mode={CODE.MODE_CREATE} />}
+        />
+        <Route
+          path={URL.ADMIN_BOARD_MODIFY}
+          element={<EgovAdminBoardEdit mode={CODE.MODE_MODIFY} />}
+        />
 
         <Route path={URL.ADMIN_USAGE} element={<EgovAdminUsageList />} />
-        <Route path={URL.ADMIN_USAGE_CREATE} element={<EgovAdminUsageEdit mode={CODE.MODE_CREATE} />} />
-        <Route path={URL.ADMIN_USAGE_MODIFY} element={<EgovAdminUsageEdit mode={CODE.MODE_MODIFY} />} />
+        <Route
+          path={URL.ADMIN_USAGE_CREATE}
+          element={<EgovAdminUsageEdit mode={CODE.MODE_CREATE} />}
+        />
+        <Route
+          path={URL.ADMIN_USAGE_MODIFY}
+          element={<EgovAdminUsageEdit mode={CODE.MODE_MODIFY} />}
+        />
 
         <Route path={URL.ADMIN_NOTICE} element={<EgovAdminNoticeList />} />
-        <Route path={URL.ADMIN_NOTICE_DETAIL} element={<EgovAdminNoticeDetail />} />
-        <Route path={URL.ADMIN_NOTICE_CREATE} element={<EgovAdminNoticeEdit mode={CODE.MODE_CREATE} />} />
-        <Route path={URL.ADMIN_NOTICE_MODIFY} element={<EgovAdminNoticeEdit mode={CODE.MODE_MODIFY} />} />
-        <Route path={URL.ADMIN_NOTICE_REPLY} element={<EgovAdminNoticeEdit mode={CODE.MODE_REPLY} />} />
+        <Route
+          path={URL.ADMIN_NOTICE_DETAIL}
+          element={<EgovAdminNoticeDetail />}
+        />
+        <Route
+          path={URL.ADMIN_NOTICE_CREATE}
+          element={<EgovAdminNoticeEdit mode={CODE.MODE_CREATE} />}
+        />
+        <Route
+          path={URL.ADMIN_NOTICE_MODIFY}
+          element={<EgovAdminNoticeEdit mode={CODE.MODE_MODIFY} />}
+        />
+        <Route
+          path={URL.ADMIN_NOTICE_REPLY}
+          element={<EgovAdminNoticeEdit mode={CODE.MODE_REPLY} />}
+        />
 
         <Route path={URL.ADMIN_GALLERY} element={<EgovAdminGalleryList />} />
-        <Route path={URL.ADMIN_GALLERY_DETAIL} element={<EgovAdminGalleryDetail />} />
-        <Route path={URL.ADMIN_GALLERY_CREATE} element={<EgovAdminGalleryEdit mode={CODE.MODE_CREATE} />} />
-        <Route path={URL.ADMIN_GALLERY_MODIFY} element={<EgovAdminGalleryEdit mode={CODE.MODE_MODIFY} />} />
-        <Route path={URL.ADMIN_GALLERY_REPLY} element={<EgovAdminGalleryEdit mode={CODE.MODE_REPLY} />} />
-		{/* 사이트관리자 암호 바꾸기 기능 */}
-		<Route path={URL.ADMIN_MANAGER} element={<EgovAdminPasswordUpdate />} />
+        <Route
+          path={URL.ADMIN_GALLERY_DETAIL}
+          element={<EgovAdminGalleryDetail />}
+        />
+        <Route
+          path={URL.ADMIN_GALLERY_CREATE}
+          element={<EgovAdminGalleryEdit mode={CODE.MODE_CREATE} />}
+        />
+        <Route
+          path={URL.ADMIN_GALLERY_MODIFY}
+          element={<EgovAdminGalleryEdit mode={CODE.MODE_MODIFY} />}
+        />
+        <Route
+          path={URL.ADMIN_GALLERY_REPLY}
+          element={<EgovAdminGalleryEdit mode={CODE.MODE_REPLY} />}
+        />
+        {/* 사이트관리자 암호 바꾸기 기능 */}
+        <Route path={URL.ADMIN_MANAGER} element={<EgovAdminPasswordUpdate />} />
       </Routes>
       <EgovFooter />
       <EgovInfoPopup />
-      
     </>
-  )
-  
-}
-
+  );
+};
 
 export default RootRoutes;
