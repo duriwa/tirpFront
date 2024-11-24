@@ -12,17 +12,16 @@ import EgovAttachFile from 'components/EgovAttachFile';
 import 'react-datepicker/dist/react-datepicker.css';
 
 function EgovIntroWork() {
+  const [ttext, tttext] = useState(""); // input
   const navigate = useNavigate();
   const location = useLocation();
   console.log('EgovAdminScheduleEdit [location] : ', location);
 
   const [scheduleDetail, setScheduleDetail] = useState({
-    schdulDeptName: '관리자부서',
+    srNo: '',
     schdulChargerName: '관리자',
-    schdulKindCode: 2,
-    reptitSeCode: '1',
-    startDate: new Date(),
-    endDate: new Date(),
+    devStDt: new Date(),
+    devEndDt: new Date(),
   });
   const [boardAttachFiles, setBoardAttachFiles] = useState();
 
@@ -49,9 +48,9 @@ function EgovIntroWork() {
       setScheduleDetail({
         ...scheduleDetail,
         ...rawScheduleDetail,
-        startDate: convertDate(rawScheduleDetail.schdulBgnde),
-        endDate: convertDate(rawScheduleDetail.schdulEndde),
-        atchFileId: rawScheduleDetail.atchFileId.trim(),
+        devStDt: convertDate(rawScheduleDetail.schdulBgnde),
+        devEndDt: convertDate(rawScheduleDetail.schdulEndde),
+        //atchFileId: rawScheduleDetail.atchFileId.trim(),
       });
       setBoardAttachFiles(resp.result.resultFiles);
     });
@@ -70,18 +69,8 @@ function EgovIntroWork() {
       alert('일정구분은 필수 값입니다.');
       return false;
     }
-    if (
-      formData.get('schdulIpcrCode') === null ||
-      formData.get('schdulIpcrCode') === ''
-    ) {
+    if (formData.get('level') === null || formData.get('level') === '') {
       alert('중요도는 필수 값입니다.');
-      return false;
-    }
-    if (
-      formData.get('reptitSeCode') === null ||
-      formData.get('reptitSeCode') === ''
-    ) {
-      alert('반복구분은 필수 값입니다.');
       return false;
     }
     if (formData.get('schdulBgnde') > formData.get('schdulEndde')) {
@@ -114,6 +103,32 @@ function EgovIntroWork() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /**
+   * 저장
+   */
+  const fn_workSave = () => {
+    console.log('fn_workSave');
+    console.log(scheduleDetail);
+    const requestOptions = {
+      method: "POST",
+      headers: {
+          'Content-type': 'application/json'
+      },
+      body: JSON.stringify(scheduleDetail)
+    }
+    
+    EgovNet.requestFetch(`/introWorkSrch`, requestOptions,
+     function (resp)  {
+        console.log("정상");
+        var data = resp.result;
+        console.log(data);
+        
+        tttext(data.test); // input 값 넣는 방법..?
+                  
+      } 
+    );
+  };
+
   console.log('------------------------------EgovAdminScheduleEdit [End]');
   console.groupEnd('EgovAdminScheduleEdit');
   return (
@@ -128,7 +143,7 @@ function EgovIntroWork() {
               </Link>
             </li>
             <li>
-              <Link to={URL.ADMIN}>사이트관리</Link>
+              <Link to={URL.INTRO_WORKSLIST}>사이트관리</Link>
             </li>
             <li>일정관리</li>
           </ul>
@@ -147,7 +162,7 @@ function EgovIntroWork() {
               <h1 className='tit_1'>사이트관리</h1>
             </div>
 
-            <h2 className='tit_2'>일정관리 상세보기 EgoIntroWork.jsx</h2>
+            <h2 className='tit_2'>일정관리 상세보기</h2>
 
             {/* <!-- 게시판 상세보기 --> */}
             <div className='board_view2'>
@@ -156,16 +171,16 @@ function EgovIntroWork() {
                   일정구분<span className='req'>필수</span>
                 </dt>
                 <dd>
-                  <label className='f_select w_130' htmlFor='schdulSe'>
+                  <label className='f_select w_130' htmlFor='gubun'>
                     <select
-                      id='schdulSe'
-                      name='schdulSe'
+                      id='gubun'
+                      name='gubun'
                       title='일정구분'
-                      value={scheduleDetail.schdulSe}
+                      value={scheduleDetail.gubun}
                       onChange={(e) =>
                         setScheduleDetail({
                           ...scheduleDetail,
-                          schdulSe: e.target.value,
+                          gubun: e.target.value,
                         })
                       }
                     >
@@ -184,16 +199,16 @@ function EgovIntroWork() {
                   중요도<span className='req'>필수</span>
                 </dt>
                 <dd>
-                  <label className='f_select w_130' htmlFor='schdulIpcrCode'>
+                  <label className='f_select w_130' htmlFor='level'>
                     <select
-                      id='schdulIpcrCode'
-                      name='schdulIpcrCode'
+                      id='level'
+                      name='level'
                       title='중요도'
-                      value={scheduleDetail.schdulIpcrCode}
+                      value={scheduleDetail.level}
                       onChange={(e) =>
                         setScheduleDetail({
                           ...scheduleDetail,
-                          schdulIpcrCode: e.target.value,
+                          level: e.target.value,
                         })
                       }
                     >
@@ -207,21 +222,21 @@ function EgovIntroWork() {
               </dl>
               <dl>
                 <dt>
-                  <label htmlFor='schdulDeptName'>형상번호</label>
+                  <label htmlFor='srNo'>형상번호</label>
                   <span className='req'>필수</span>
                 </dt>
                 <dd>
                   <input
                     className='f_input2 w_full'
                     type='text'
-                    name='schdulDeptName'
-                    title='부서'
-                    id='schdulDeptName'
-                    defaultValue={scheduleDetail.schdulDeptName}
+                    name='srNo'
+                    id='srNo'
+                    placeholder='형상번호'
+                    defaultValue={scheduleDetail.srNo}
                     onChange={(e) =>
                       setScheduleDetail({
                         ...scheduleDetail,
-                        schdulDeptName: e.target.value,
+                        srNo: e.target.value,
                       })
                     }
                   />
@@ -229,22 +244,22 @@ function EgovIntroWork() {
               </dl>
               <dl>
                 <dt>
-                  <label htmlFor='schdulCn'>형상명</label>
+                  <label htmlFor='srNm'>형상명</label>
                   <span className='req'>필수</span>
                 </dt>
                 <dd>
                   <textarea
                     className='f_txtar w_full h_100'
-                    name='schdulCn'
-                    id='schdulCn'
+                    name='srNm'
+                    id='srNm'
                     cols='30'
                     rows='10'
                     placeholder='형상명'
-                    defaultValue={scheduleDetail.schdulCn}
+                    defaultValue={scheduleDetail.srNm}
                     onChange={(e) =>
                       setScheduleDetail({
                         ...scheduleDetail,
-                        schdulCn: e.target.value,
+                        srNm: e.target.value,
                       })
                     }
                   ></textarea>
@@ -257,17 +272,15 @@ function EgovIntroWork() {
                 <dd className='datetime'>
                   <span className='line_break'>
                     <DatePicker
-                      selected={scheduleDetail.startDate}
+                      selected={scheduleDetail.devStDt}
                       name='schdulBgnde'
                       className='f_input'
                       dateFormat='yyyy-MM-dd'
                       onChange={(date) => {
-                        console.log('setStartDate : ', date);
+                        console.log('setDevStDt : ', date);
                         setScheduleDetail({
                           ...scheduleDetail,
-                          schdulBgnde: getDateFourteenDigit(date),
-                          schdulBgndeYYYMMDD: getYYYYMMDD(date),
-                          startDate: date,
+                          devStDt: date,
                         });
                       }}
                     />
@@ -275,18 +288,18 @@ function EgovIntroWork() {
                   </span>
                   <span className='line_break'>
                     <DatePicker
-                      selected={scheduleDetail.endDate}
+                      selected={scheduleDetail.devEndDt}
                       name='schdulEndde'
                       className='f_input'
                       dateFormat='yyyy-MM-dd'
-                      minDate={scheduleDetail.startDate}
+                      minDate={scheduleDetail.devStDt}
                       onChange={(date) => {
-                        console.log('setEndDate: ', date);
+                        console.log('setDevEndDt: ', date);
                         setScheduleDetail({
                           ...scheduleDetail,
                           schdulEndde: getDateFourteenDigit(date),
                           schdulEnddeYYYMMDD: getYYYYMMDD(date),
-                          endDate: date,
+                          devEndDt: date,
                         });
                       }}
                     />
@@ -300,17 +313,15 @@ function EgovIntroWork() {
                 <dd className='datetime'>
                   <span className='line_break'>
                     <DatePicker
-                      selected={scheduleDetail.endDate}
-                      name='schdulEndDate'
+                      selected={scheduleDetail.endDt}
+                      name='endDt'
                       className='f_input'
                       dateFormat='yyyy-MM-dd'
                       onChange={(date) => {
-                        console.log('setStartDate : ', date);
+                        console.log('setEndDt : ', date);
                         setScheduleDetail({
                           ...scheduleDetail,
-                          schdulBgnde: getDateFourteenDigit(date),
-                          schdulBgndeYYYMMDD: getYYYYMMDD(date),
-                          startDate: date,
+                          endDt: date,
                         });
                       }}
                     />
@@ -322,16 +333,16 @@ function EgovIntroWork() {
                   진행상태<span className='req'>필수</span>
                 </dt>
                 <dd>
-                  <label className='f_select w_130' htmlFor='schdulProgStatus'>
+                  <label className='f_select w_130' htmlFor='progStatus'>
                     <select
-                      id='schdulProgStatus'
-                      name='schdulProgStatus'
+                      id='progStatus'
+                      name='progStatus'
                       title='진행상태'
-                      value={scheduleDetail.schdulProgStatus}
+                      value={scheduleDetail.progStatus}
                       onChange={(e) =>
                         setScheduleDetail({
                           ...scheduleDetail,
-                          schdulProgStatus: e.target.value,
+                          progStatus: e.target.value,
                         })
                       }
                     >
@@ -346,20 +357,20 @@ function EgovIntroWork() {
               </dl>
               <dl>
                 <dt>
-                  <label htmlFor='schdulChargerName'>담당자</label>
+                  <label htmlFor='sawonNm'>담당자</label>
                   <span className='req'>필수</span>
                 </dt>
                 <dd>
                   <input
                     className='f_input2 w_full'
                     type='text'
-                    name='schdulChargerName'
-                    id='schdulChargerName'
-                    defaultValue={scheduleDetail.schdulChargerNm}
+                    name='sawonNm'
+                    id='sawonNm'
+                    defaultValue={scheduleDetail.sawonNm}
                     onChange={(e) =>
                       setScheduleDetail({
                         ...scheduleDetail,
-                        schdulChargerNm: e.target.value,
+                        sawonNm: e.target.value,
                       })
                     }
                   />
@@ -367,20 +378,20 @@ function EgovIntroWork() {
               </dl>
               <dl>
                 <dt>
-                  <label htmlFor='schdulMemHour'>공수</label>
+                  <label htmlFor='memHour'>공수</label>
                   <span className='req'>필수</span>
                 </dt>
                 <dd>
                   <input
                     className='f_input2 w_full'
-                    name='schdulMemHour'
-                    id='schdulMemHour'
+                    name='memHour'
+                    id='memHour'
                     type='text'
-                    defaultValue={scheduleDetail.schdulMemHour}
+                    defaultValue={scheduleDetail.memHour}
                     onChange={(e) =>
                       setScheduleDetail({
                         ...scheduleDetail,
-                        schdulMemHour: e.target.value,
+                        memHour: e.target.value,
                       })
                     }
                   />
@@ -388,26 +399,26 @@ function EgovIntroWork() {
               </dl>
               <dl>
                 <dt>
-                  <label htmlFor='schdulCn'>비고</label>
+                  <label htmlFor='bigo'>비고</label>
                 </dt>
                 <dd>
                   <textarea
                     className='f_txtar w_full h_100'
-                    name='schdulCn'
-                    id='schdulCn'
+                    name='bigo'
+                    id='bigo'
                     cols='30'
                     rows='10'
-                    defaultValue={scheduleDetail.schdulCn}
+                    defaultValue={scheduleDetail.bigo}
                     onChange={(e) =>
                       setScheduleDetail({
                         ...scheduleDetail,
-                        schdulCn: e.target.value,
+                        bigo: e.target.value,
                       })
                     }
                   ></textarea>
                 </dd>
               </dl>
-              <EgovAttachFile
+              {/* <EgovAttachFile
                 fnChangeFile={(attachfile) => {
                   console.log('====>>> Changed attachfile file = ', attachfile);
                   const arrayConcat = { ...scheduleDetail }; // 기존 단일 파일 업로드에서 다중파일 객체 추가로 변환(아래 for문으로)
@@ -422,16 +433,15 @@ function EgovIntroWork() {
                 }}
                 boardFiles={boardAttachFiles}
                 //mode={props.mode}
-              />
+              /> */}
 
               {/* <!-- 버튼영역 --> */}
               <div className='board_btn_area'>
                 <div className='left_col btn1'>
                   <button
                     className='btn btn_skyblue_h46 w_100'
-                    onClick={() => console.log('33')}
+                    onClick={fn_workSave}
                   >
-                    {' '}
                     저장!
                   </button>
                   <a href='#!' className='btn btn_skyblue_h46 w_100'>
