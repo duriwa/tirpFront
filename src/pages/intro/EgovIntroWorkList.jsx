@@ -91,113 +91,28 @@ function EgovIntroSrchDown(props) {
   };
 
   const drawList = useCallback(() => {
-    const dayNames = [
-      '일요일',
-      '월요일',
-      '화요일',
-      '수요일',
-      '목요일',
-      '금요일',
-      '토요일',
-    ];
     let mutListTag = [];
 
-    let keyPropertyCnt = 0;
-    // 리스트 항목 구성
-    for (let dayIdx = 0; dayIdx < 7; dayIdx++) {
-      let scheduleDate = new Date(
-        searchCondition.year,
-        searchCondition.month,
-        searchCondition.date + dayIdx
-      );
-      let scheduleDateStr =
-        scheduleDate.getFullYear() +
-        '년 ' +
-        (scheduleDate.getMonth() + 1) +
-        '월 ' +
-        scheduleDate.getDate() +
-        '일 ' +
-        dayNames[scheduleDate.getDay()];
-      let scheduleBgDate =
-        scheduleDate.getFullYear() +
-        ('00' + (scheduleDate.getMonth() + 1).toString()).slice(-2) +
-        ('00' + scheduleDate.getDate().toString()).slice(-2);
+    mutListTag = [];
+    mutListTag.push(
+      <div className='list_item' key={''}>
+        <div id='linkTest'>
+          <Link to={URL.INTRO_WORKS}>11111</Link>
+        </div>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+        <div>9</div>
+        <div>10</div>
+        <div>11</div>
+      </div>
+    );
 
-      keyPropertyCnt++;
-
-      let mutSubListTag = [];
-      let slicedScheduleList = [];
-
-      //scheduleList는 일주일치 일정을 한번에 가져온 데이터
-      //scheduleList를 순환하면서 날짜에 맞는 걸로만 재구성
-      scheduleList.forEach((currentElement, index) => {
-        // 하루짜리 일정일 경우 시작일과 날짜가 일치하면
-        if (
-          currentElement.schdulBgnde.substring(0, 8) ===
-            currentElement.schdulEndde.substring(0, 8) &&
-          currentElement.schdulBgnde.substring(0, 8) === scheduleBgDate
-        ) {
-          slicedScheduleList.push(scheduleList[index]);
-          // 이틀 이상 일정일 경우 시작일이 날짜보다 작거나 같으면 (그리고 종료일이 날짜보다 크거나 같으면)
-        } else if (
-          currentElement.schdulBgnde.substring(0, 8) !==
-            currentElement.schdulEndde.substring(0, 8) &&
-          currentElement.schdulBgnde.substring(0, 8) <= scheduleBgDate &&
-          currentElement.schdulEndde.substring(0, 8) >= scheduleBgDate
-        ) {
-          slicedScheduleList.push(scheduleList[index]);
-        }
-      });
-      //재구성된 게 없으면(즉, 일주일치 일정이 없으면)
-      if (slicedScheduleList.length === 999) {
-        // === 0
-        mutListTag.push(
-          <div className='list_item' key={keyPropertyCnt}>
-            <div>{scheduleDateStr}</div>
-            <div>
-              <span>일정이 존재하지 않습니다.</span>
-            </div>
-          </div>
-        );
-      } else {
-        mutListTag.push(
-          <div className='list_item' key={keyPropertyCnt}>
-            <div id='linkTest'>
-              <Link to={URL.INTRO_WORKS}>{scheduleDateStr}</Link>
-            </div>
-            <div>{mutSubListTag}</div>
-          </div>
-        );
-
-        let subKeyPropertyCnt = 0;
-
-        mutSubListTag.push(
-          <>
-            {slicedScheduleList.length !== 0 &&
-              slicedScheduleList.map((item) => {
-                subKeyPropertyCnt++;
-                return (
-                  <Link
-                    key={subKeyPropertyCnt}
-                    to={{ pathname: URL.INFORM_WEEKLY_DETAIL }}
-                    state={{
-                      schdulId: item.schdulId,
-                      prevPath: URL.INFORM_WEEKLY,
-                    }}
-                  >
-                    <span>
-                      {getTimeForm(item.schdulBgnde)} ~{' '}
-                      {getTimeForm(item.schdulEndde)}
-                    </span>
-                    <span>{item.schdulNm}</span>
-                    <span>{item.userNm}</span>
-                  </Link>
-                );
-              })}
-          </>
-        );
-      }
-    }
     setListTag(mutListTag);
   }, [
     scheduleList,
@@ -266,9 +181,63 @@ function EgovIntroSrchDown(props) {
   }, [searchCondition]);
 
   useEffect(() => {
-    drawList();
+    fn_srchWorkData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scheduleList]);
+
+  useEffect(() => {
+    console.log('srch~~~');
+    try {
+      fn_srchWorkData();
+    } catch (error) {
+      console.error('fn_srchWorkData 실행 중 오류:', error);
+    }
+  }, []);
+
+  const fn_srchWorkData = () => {
+    console.log('????????????????');
+    // body에 사번으로 조회
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      //body: JSON.stringify(),
+    };
+
+    EgovNet.requestFetch(`/srchWork`, requestOptions, function (resp) {
+      console.log('정상!!!');
+      var data = resp.result.result;
+      console.log(data);
+
+      let mutListTag = [];
+      mutListTag = [];
+      data.forEach((item, i) => {
+        mutListTag.push(
+          <div id='linkTest'>
+            <Link to={URL.INTRO_WORKS}>
+              <div className='list_item' key={i}>
+                <div>{item.gubun}</div>
+                <div>{item.level}</div>
+                <div>{item.sr_no}</div>
+                <div>{item.sr_nm}</div>
+                <div>{item.dev_st_dt}</div>
+                <div>{item.dev_end_dt}</div>
+                <div>{item.end_dt}</div>
+                <div>{item.prog_rate}</div>
+                <div>{item.prog_status}</div>
+                <div>담당자</div>
+                <div>{item.mem_hour}</div>
+                <div>{item.bigo}</div>
+              </div>
+            </Link>
+          </div>
+        );
+      });
+
+      setListTag(mutListTag);
+    });
+  };
 
   console.log('----------------------------EgovIntroSrchDown [End]');
   console.groupEnd('EgovIntroSrchDown');
@@ -374,11 +343,17 @@ function EgovIntroSrchDown(props) {
             <div className='board_list BRD004'>
               <div className='head'>
                 <span>구분</span>
-                <span>구분상세</span>
-                <span>교육명</span>
-                <span>시작일자</span>
-                <span>종료일자</span>
-                <span>기타</span>
+                <span>중요도</span>
+                <span>형상번호</span>
+                <span>형상명</span>
+                <span>개발시작일</span>
+                <span>개발완료일</span>
+                <span>반영예정일</span>
+                <span>진척율</span>
+                <span>진행상태</span>
+                <span>담당자</span>
+                <span>공수</span>
+                <span>비고</span>
               </div>
               <div className='result'>{listTag}</div>
             </div>
