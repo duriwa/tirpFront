@@ -5,6 +5,8 @@ import * as EgovNet from 'api/egovFetch';
 import URL from 'constants/url';
 import CODE from 'constants/code';
 
+import * as XLSX from 'xlsx';
+
 import { default as EgovLeftNav } from 'components/leftmenu/EgovLeftNavIntro';
 
 function EgovIntroSrchDown(props) {
@@ -50,6 +52,7 @@ function EgovIntroSrchDown(props) {
 
   const [scheduleList, setScheduleList] = useState([]);
   const [listTag, setListTag] = useState([]);
+  const [excelData, setExcelData] = useState([]);
 
   const changeDate = (target, amount) => {
     let changedDate;
@@ -194,6 +197,18 @@ function EgovIntroSrchDown(props) {
     }
   }, []);
 
+  const excelDownload = () => {
+    console.log('엑셀!!');
+
+    // 워크북 만들기
+    const ws = XLSX.utils.json_to_sheet(excelData); // JSON 데이터를 시트 형식으로 변환
+    const wb = XLSX.utils.book_new(); // 새로운 워크북 생성
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1'); // 시트를 워크북에 추가
+
+    // 엑셀 파일 다운로드
+    XLSX.writeFile(wb, '주간보고.xlsx');
+  };
+
   const fn_srchWorkData = () => {
     console.log('????????????????');
     // body에 사번으로 조회
@@ -235,6 +250,7 @@ function EgovIntroSrchDown(props) {
         );
       });
 
+      setExcelData(data);
       setListTag(mutListTag);
     });
   };
@@ -333,7 +349,12 @@ function EgovIntroSrchDown(props) {
                   ></button>
                 </li>
                 <li>
-                  <Link className='btn btn_blue_h46 pd35'>조회</Link>
+                  <Link
+                    className='btn btn_blue_h46 pd35'
+                    onClick={() => excelDownload()}
+                  >
+                    다운로드
+                  </Link>
                 </li>
               </ul>
             </div>
