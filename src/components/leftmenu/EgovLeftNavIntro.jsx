@@ -19,7 +19,7 @@ function EgovLeftNavIntro() {
           </li>
           <li>
             <NavLink
-              to={URL.INTRO_SERVICE}
+              to={URL.INTRO_ETCLIST}
               className={({ isActive }) => (isActive ? 'cur' : '')}
             >
               기타(교육, 휴가)

@@ -222,7 +222,7 @@ function EgovHeader() {
               </li>
               <li>
                 <NavLink
-                  to={URL.INTRO_SERVICE}
+                  to={URL.INTRO_ETCLIST}
                   className={({ isActive }) => (isActive ? 'cur' : '')}
                 >
                   일정관리
@@ -411,7 +411,7 @@ function EgovHeader() {
               </li>
               <li>
                 <NavLink
-                  to={URL.INTRO_SERVICE}
+                  to={URL.INTRO_ETCLIST}
                   className={({ isActive }) => (isActive ? 'cur' : '')}
                 >
                   대표서비스 소개

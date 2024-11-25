@@ -7,9 +7,9 @@ import CODE from 'constants/code';
 
 import { default as EgovLeftNav } from 'components/leftmenu/EgovLeftNavIntro';
 
-function EgovIntroService(props) {
+function EgovIntroEtcList(props) {
   const location = useLocation();
-  console.log('EgovIntroService [location] : ', location);
+  console.log('EgovIntroEtcList [location] : ', location);
 
   const DATE = new Date();
   const FIRST_DAY_OF_THIS_WEEK = new Date(
@@ -89,111 +89,22 @@ function EgovIntroService(props) {
   };
 
   const drawList = useCallback(() => {
-    const dayNames = [
-      '일요일',
-      '월요일',
-      '화요일',
-      '수요일',
-      '목요일',
-      '금요일',
-      '토요일',
-    ];
     let mutListTag = [];
 
-    let keyPropertyCnt = 0;
-    // 리스트 항목 구성
-    for (let dayIdx = 0; dayIdx < 7; dayIdx++) {
-      let scheduleDate = new Date(
-        searchCondition.year,
-        searchCondition.month,
-        searchCondition.date + dayIdx
-      );
-      let scheduleDateStr =
-        scheduleDate.getFullYear() +
-        '년 ' +
-        (scheduleDate.getMonth() + 1) +
-        '월 ' +
-        scheduleDate.getDate() +
-        '일 ' +
-        dayNames[scheduleDate.getDay()];
-      let scheduleBgDate =
-        scheduleDate.getFullYear() +
-        ('00' + (scheduleDate.getMonth() + 1).toString()).slice(-2) +
-        ('00' + scheduleDate.getDate().toString()).slice(-2);
-
-      keyPropertyCnt++;
-
-      let mutSubListTag = [];
-      let slicedScheduleList = [];
-
-      //scheduleList는 일주일치 일정을 한번에 가져온 데이터
-      //scheduleList를 순환하면서 날짜에 맞는 걸로만 재구성
-      scheduleList.forEach((currentElement, index) => {
-        // 하루짜리 일정일 경우 시작일과 날짜가 일치하면
-        if (
-          currentElement.schdulBgnde.substring(0, 8) ===
-            currentElement.schdulEndde.substring(0, 8) &&
-          currentElement.schdulBgnde.substring(0, 8) === scheduleBgDate
-        ) {
-          slicedScheduleList.push(scheduleList[index]);
-          // 이틀 이상 일정일 경우 시작일이 날짜보다 작거나 같으면 (그리고 종료일이 날짜보다 크거나 같으면)
-        } else if (
-          currentElement.schdulBgnde.substring(0, 8) !==
-            currentElement.schdulEndde.substring(0, 8) &&
-          currentElement.schdulBgnde.substring(0, 8) <= scheduleBgDate &&
-          currentElement.schdulEndde.substring(0, 8) >= scheduleBgDate
-        ) {
-          slicedScheduleList.push(scheduleList[index]);
-        }
-      });
-
-      //재구성된 게 없으면(즉, 일주일치 일정이 없으면)
-      if (slicedScheduleList.length === 0) {
-        mutListTag.push(
-          <div className='list_item' key={keyPropertyCnt}>
-            <div>{scheduleDateStr}</div>
-            <div>
-              <span>일정이 존재하지 않습니다.</span>
-            </div>
+    mutListTag.push(
+      <div id='linkTest'>
+        <Link to={URL.INTRO_ETC}>
+          <div className='list_item' key={''}>
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+            <div>5</div>
+            <div>6</div>
           </div>
-        );
-      } else {
-        mutListTag.push(
-          <div className='list_item' key={keyPropertyCnt}>
-            <div>{scheduleDateStr}</div>
-            <div>{mutSubListTag}</div>
-          </div>
-        );
-
-        let subKeyPropertyCnt = 0;
-
-        mutSubListTag.push(
-          <>
-            {slicedScheduleList.length !== 0 &&
-              slicedScheduleList.map((item) => {
-                subKeyPropertyCnt++;
-                return (
-                  <Link
-                    key={subKeyPropertyCnt}
-                    to={{ pathname: URL.INFORM_WEEKLY_DETAIL }}
-                    state={{
-                      schdulId: item.schdulId,
-                      prevPath: URL.INFORM_WEEKLY,
-                    }}
-                  >
-                    <span>
-                      {getTimeForm(item.schdulBgnde)} ~{' '}
-                      {getTimeForm(item.schdulEndde)}
-                    </span>
-                    <span>{item.schdulNm}</span>
-                    <span>{item.userNm}</span>
-                  </Link>
-                );
-              })}
-          </>
-        );
-      }
-    }
+        </Link>
+      </div>
+    );
     setListTag(mutListTag);
   }, [
     scheduleList,
@@ -262,9 +173,48 @@ function EgovIntroService(props) {
   }, [searchCondition]);
 
   useEffect(() => {
-    drawList();
+    fn_srchEtcData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scheduleList]);
+
+  const fn_srchEtcData = () => {
+    console.log('????????????????');
+    // body에 사번으로 조회
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      //body: JSON.stringify(),
+    };
+
+    EgovNet.requestFetch(`/srchEtc`, requestOptions, function (resp) {
+      console.log('정상!!!');
+      var data = resp.result.result;
+      console.log(data);
+
+      let mutListTag = [];
+      mutListTag = [];
+      data.forEach((item, i) => {
+        mutListTag.push(
+          <div id='linkTest'>
+            <Link to={URL.INTRO_ETC}>
+              <div className='list_item' key={i}>
+                <div>{item.gubun}</div>
+                <div>{item.gubun_detail}</div>
+                <div>{item.edu_nm}</div>
+                <div>{item.st_dt}</div>
+                <div>{item.end_dt}</div>
+                <div>{item.bigo}</div>
+              </div>
+            </Link>
+          </div>
+        );
+      });
+
+      setListTag(mutListTag);
+    });
+  };
 
   console.log('----------------------------EgovIntroSrchDown [End]');
   console.groupEnd('EgovIntroSrchDown');
@@ -372,4 +322,4 @@ function EgovIntroService(props) {
   );
 }
 
-export default EgovIntroService;
+export default EgovIntroEtcList;

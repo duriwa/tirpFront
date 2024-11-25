@@ -76,8 +76,8 @@ function EgovIntroWork() {
   /**
    * 저장
    */
-  const fn_workSave = () => {
-    console.log('fn_workSave');
+  const fn_etcSave = () => {
+    console.log('fn_etcSave');
     console.log(scheduleDetail);
     const requestOptions = {
       method: 'POST',
@@ -86,11 +86,8 @@ function EgovIntroWork() {
       },
       body: JSON.stringify(scheduleDetail),
     };
-    setScheduleDetail({});
-    console.log('chrlghk');
-    console.log(scheduleDetail);
-    return true;
-    EgovNet.requestFetch(`/insWork`, requestOptions, function (resp) {
+
+    EgovNet.requestFetch(`/insEtc`, requestOptions, function (resp) {
       console.log('정상');
       var data = resp.result;
       console.log(data);
@@ -141,7 +138,7 @@ function EgovIntroWork() {
               <h1 className='tit_1'>사이트관리</h1>
             </div>
 
-            <h2 className='tit_2'>일정관리 상세보기</h2>
+            <h2 className='tit_2'>휴가, 교육 작성 페이지</h2>
 
             {/* <!-- 게시판 상세보기 --> */}
             <div className='board_view2'>
@@ -164,58 +161,56 @@ function EgovIntroWork() {
                       }
                     >
                       <option value=''>선택</option>
-                      <option value='1'>회의</option>
-                      <option value='2'>세미나</option>
-                      <option value='3'>강의</option>
-                      <option value='4'>교육</option>
-                      <option value='5'>기타</option>
+                      <option value='1'>휴가</option>
+                      <option value='2'>교육</option>
                     </select>
                   </label>
                 </dd>
               </dl>
               <dl>
                 <dt>
-                  중요도<span className='req'>필수</span>
+                  구분상세<span className='req'>필수</span>
                 </dt>
                 <dd>
-                  <label className='f_select w_130' htmlFor='level'>
+                  <label className='f_select w_130' htmlFor='gubunDetail'>
                     <select
-                      id='level'
-                      name='level'
-                      title='중요도'
-                      value={scheduleDetail.level}
+                      id='gubunDetail'
+                      name='gubunDetail'
+                      title='구분상세'
+                      value={scheduleDetail.v}
                       onChange={(e) =>
                         setScheduleDetail({
                           ...scheduleDetail,
-                          level: e.target.value,
+                          gubunDetail: e.target.value,
                         })
                       }
                     >
                       <option value=''>선택</option>
-                      <option value='A'>높음</option>
-                      <option value='B'>보통</option>
-                      <option value='C'>낮음</option>
+                      <option value='A'>반차</option>
+                      <option value='B'>연차</option>
+                      <option value='C'>교육</option>
+                      <option value='D'>웹교육</option>
                     </select>
                   </label>
                 </dd>
               </dl>
               <dl>
                 <dt>
-                  <label htmlFor='srNo'>형상번호</label>
+                  <label htmlFor='eduNm'>교육명</label>
                   <span className='req'>필수</span>
                 </dt>
                 <dd>
                   <input
                     className='f_input2 w_full'
                     type='text'
-                    name='srNo'
-                    id='srNo'
-                    placeholder='형상번호'
-                    defaultValue={scheduleDetail.srNo}
+                    name='eduNm'
+                    id='eduNm'
+                    placeholder='교육명'
+                    defaultValue={scheduleDetail.eduNm}
                     onChange={(e) =>
                       setScheduleDetail({
                         ...scheduleDetail,
-                        srNo: e.target.value,
+                        eduNm: e.target.value,
                       })
                     }
                   />
@@ -223,62 +218,19 @@ function EgovIntroWork() {
               </dl>
               <dl>
                 <dt>
-                  <label htmlFor='srNm'>형상명</label>
-                  <span className='req'>필수</span>
-                </dt>
-                <dd>
-                  <textarea
-                    className='f_txtar w_full h_100'
-                    name='srNm'
-                    id='srNm'
-                    cols='30'
-                    rows='10'
-                    placeholder='형상명'
-                    defaultValue={scheduleDetail.srNm}
-                    onChange={(e) =>
-                      setScheduleDetail({
-                        ...scheduleDetail,
-                        srNm: e.target.value,
-                      })
-                    }
-                  ></textarea>
-                </dd>
-              </dl>
-              <dl>
-                <dt>
-                  개발시작/완료일<span className='req'>필수</span>
+                  시작일<span className='req'>필수</span>
                 </dt>
                 <dd className='datetime'>
                   <span className='line_break'>
                     <DatePicker
-                      selected={scheduleDetail.devStDt}
-                      name='schdulBgnde'
+                      selected={scheduleDetail.stDt}
+                      name='stDt'
                       className='f_input'
                       dateFormat='yyyy-MM-dd'
                       onChange={(date) => {
-                        console.log('setDevStDt : ', date);
                         setScheduleDetail({
                           ...scheduleDetail,
-                          devStDt: date,
-                        });
-                      }}
-                    />
-                    <span className='f_inn_txt'>~</span>
-                  </span>
-                  <span className='line_break'>
-                    <DatePicker
-                      selected={scheduleDetail.devEndDt}
-                      name='schdulEndde'
-                      className='f_input'
-                      dateFormat='yyyy-MM-dd'
-                      minDate={scheduleDetail.devStDt}
-                      onChange={(date) => {
-                        console.log('setDevEndDt: ', date);
-                        setScheduleDetail({
-                          ...scheduleDetail,
-                          schdulEndde: getDateFourteenDigit(date),
-                          schdulEnddeYYYMMDD: getYYYYMMDD(date),
-                          devEndDt: date,
+                          stDt: date,
                         });
                       }}
                     />
@@ -287,7 +239,7 @@ function EgovIntroWork() {
               </dl>
               <dl>
                 <dt>
-                  반영예정일<span className='req'>필수</span>
+                  종료일<span className='req'>필수</span>
                 </dt>
                 <dd className='datetime'>
                   <span className='line_break'>
@@ -297,7 +249,6 @@ function EgovIntroWork() {
                       className='f_input'
                       dateFormat='yyyy-MM-dd'
                       onChange={(date) => {
-                        console.log('setEndDt : ', date);
                         setScheduleDetail({
                           ...scheduleDetail,
                           endDt: date,
@@ -305,75 +256,6 @@ function EgovIntroWork() {
                       }}
                     />
                   </span>
-                </dd>
-              </dl>
-              <dl>
-                <dt>
-                  진행상태<span className='req'>필수</span>
-                </dt>
-                <dd>
-                  <label className='f_select w_130' htmlFor='progStatus'>
-                    <select
-                      id='progStatus'
-                      name='progStatus'
-                      title='진행상태'
-                      value={scheduleDetail.progStatus}
-                      onChange={(e) =>
-                        setScheduleDetail({
-                          ...scheduleDetail,
-                          progStatus: e.target.value,
-                        })
-                      }
-                    >
-                      <option value=''>선택</option>
-                      <option value='I'>진행중</option>
-                      <option value='S'>중지</option>
-                      <option value='W'>대기</option>
-                      <option value='E'>완료</option>
-                    </select>
-                  </label>
-                </dd>
-              </dl>
-              <dl>
-                <dt>
-                  <label htmlFor='sawonNm'>담당자</label>
-                  <span className='req'>필수</span>
-                </dt>
-                <dd>
-                  <input
-                    className='f_input2 w_full'
-                    type='text'
-                    name='sawonNm'
-                    id='sawonNm'
-                    defaultValue={scheduleDetail.sawonNm}
-                    onChange={(e) =>
-                      setScheduleDetail({
-                        ...scheduleDetail,
-                        sawonNm: e.target.value,
-                      })
-                    }
-                  />
-                </dd>
-              </dl>
-              <dl>
-                <dt>
-                  <label htmlFor='memHour'>공수</label>
-                  <span className='req'>필수</span>
-                </dt>
-                <dd>
-                  <input
-                    className='f_input2 w_full'
-                    name='memHour'
-                    id='memHour'
-                    type='text'
-                    defaultValue={scheduleDetail.memHour}
-                    onChange={(e) =>
-                      setScheduleDetail({
-                        ...scheduleDetail,
-                        memHour: e.target.value,
-                      })
-                    }
-                  />
                 </dd>
               </dl>
               <dl>
@@ -419,9 +301,9 @@ function EgovIntroWork() {
                 <div className='left_col btn1'>
                   <button
                     className='btn btn_skyblue_h46 w_100'
-                    onClick={fn_workSave}
+                    onClick={fn_etcSave}
                   >
-                    저장!
+                    저장
                   </button>
                   <a href='#!' className='btn btn_skyblue_h46 w_100'>
                     삭제
