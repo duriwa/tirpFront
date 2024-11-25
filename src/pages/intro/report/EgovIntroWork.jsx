@@ -12,6 +12,7 @@ import EgovAttachFile from 'components/EgovAttachFile';
 import 'react-datepicker/dist/react-datepicker.css';
 
 function EgovIntroWork() {
+  const [ttext, tttext] = useState(''); // input
   const navigate = useNavigate();
   const location = useLocation();
   console.log('EgovAdminScheduleEdit [location] : ', location);
@@ -102,9 +103,27 @@ function EgovIntroWork() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /**
+   * 저장
+   */
   const fn_workSave = () => {
     console.log('fn_workSave');
     console.log(scheduleDetail);
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(scheduleDetail),
+    };
+
+    EgovNet.requestFetch(`/insWork`, requestOptions, function (resp) {
+      console.log('정상');
+      var data = resp.result;
+      console.log(data);
+
+      tttext(data.test); // input 값 넣는 방법..?
+    });
   };
 
   console.log('------------------------------EgovAdminScheduleEdit [End]');
@@ -121,7 +140,7 @@ function EgovIntroWork() {
               </Link>
             </li>
             <li>
-              <Link to={URL.ADMIN}>사이트관리</Link>
+              <Link to={URL.INTRO_WORKSLIST}>사이트관리</Link>
             </li>
             <li>일정관리</li>
           </ul>
@@ -140,7 +159,7 @@ function EgovIntroWork() {
               <h1 className='tit_1'>사이트관리</h1>
             </div>
 
-            <h2 className='tit_2'>일정관리 상세보기 EgoIntroWork.jsx</h2>
+            <h2 className='tit_2'>일정관리 상세보기</h2>
 
             {/* <!-- 게시판 상세보기 --> */}
             <div className='board_view2'>
@@ -418,7 +437,7 @@ function EgovIntroWork() {
                 <div className='left_col btn1'>
                   <button
                     className='btn btn_skyblue_h46 w_100'
-                    onClick={() => fn_workSave()}
+                    onClick={fn_workSave}
                   >
                     저장!
                   </button>

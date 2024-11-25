@@ -92,7 +92,7 @@ function EgovHeader() {
             </li>
             <li>
               <NavLink
-                to={URL.INTRO}
+                to={URL.INTRO_WORKSLIST}
                 className={({ isActive }) => (isActive ? 'cur' : '')}
               >
                 주간업무보고
