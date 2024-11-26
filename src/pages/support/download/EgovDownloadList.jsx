@@ -144,35 +144,170 @@ function EgovDownloadList() {
                     <tbody>
                       <td>
                         <dd>
-                          <input
+                          <select
                             className='f_input2 w_full'
-                            type='text'
-                            name='schdulChargerName'
-                            id='schdulChargerName'
-                            defaultValue={''}
-                          />
+                            id='sr_step'
+                            name='progres'
+                            title='형상진행여부'
+                          >
+                            <option value=''>선택</option>
+                            <option value='1'>완료</option>
+                            <option value='2'>진행중</option>
+                            <option value='3'>미진행</option>
+                          </select>
                         </dd>
                       </td>
                       <td>
                         <select
-                          id='schdulSe'
-                          name='schdulSe'
-                          title='일정구분'
-                          value={scheduleDetail.schdulSe}
-                          onChange={(e) =>
-                            setScheduleDetail({
-                              ...scheduleDetail,
-                              schdulSe: e.target.value,
-                            })
-                          }
+                          className='f_input2 w_full'
+                          id='sr_step'
+                          name='progres'
+                          title='형상진행여부'
                         >
                           <option value=''>선택</option>
-                          <option value='1'>회의</option>
-                          <option value='2'>세미나</option>
-                          <option value='3'>강의</option>
-                          <option value='4'>교육</option>
-                          <option value='5'>기타</option>
+                          <option value='1'>분배</option>
+                          <option value='2'>개발</option>
+                          <option value='3'>QA</option>
+                          <option value='4'>UAT확인</option>
+                          <option value='5'>운영적용</option>
+                          <option value='6'>최종확인</option>
+                          <option value='7'>종료</option>
                         </select>
+                      </td>
+                      <td>
+                        <input
+                          className='f_input2 w_full'
+                          type='text'
+                          name='system_type'
+                          id='system_type'
+                          defaultValue={''}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className='f_input2 w_full'
+                          type='text'
+                          name='task_type'
+                          id='task_type'
+                          defaultValue={''}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className='f_input2 w_full'
+                          type='text'
+                          name='sr_no'
+                          id='sr_no'
+                          defaultValue={''}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className='f_input2 w_full'
+                          type='text'
+                          name='sr_nm'
+                          id='sr_nm'
+                          defaultValue={''}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className='f_input2 w_full'
+                          type='text'
+                          name='sawon_cd'
+                          id='sawon_cd'
+                          defaultValue={''}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className='f_input2 w_full'
+                          type='text'
+                          name='sawon_nm'
+                          id='sawon_nm'
+                          defaultValue={''}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className='f_input2 w_full'
+                          type='text'
+                          name='pl_nm'
+                          id='pl_nm'
+                          defaultValue={''}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className='f_input2 w_full'
+                          type='text'
+                          name='dev_end_date'
+                          id='dev_end_date'
+                          defaultValue={''}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className='f_input2 w_full'
+                          type='text'
+                          name='real_set_date'
+                          id='real_set_date'
+                          defaultValue={''}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className='f_input2 w_full'
+                          type='text'
+                          name='test_plan'
+                          id='test_plan'
+                          defaultValue={''}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className='f_input2 w_full'
+                          type='text'
+                          name='moniter_plan'
+                          id='moniter_plan'
+                          defaultValue={''}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className='f_input2 w_full'
+                          type='text'
+                          name='deploy_level'
+                          id='deploy_level'
+                          defaultValue={''}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className='f_input2 w_full'
+                          type='text'
+                          name='deploy_type'
+                          id='deploy_type'
+                          defaultValue={''}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className='f_input2 w_full'
+                          type='text'
+                          name='real_set_time'
+                          id='real_set_time'
+                          defaultValue={''}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className='f_input2 w_full'
+                          type='text'
+                          name='package_yn'
+                          id='package_yn'
+                          defaultValue={''}
+                        />
                       </td>
                     </tbody>
                   </table>
