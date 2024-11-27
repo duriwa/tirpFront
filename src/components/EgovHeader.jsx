@@ -188,7 +188,7 @@ function EgovHeader() {
                   to={URL.ABOUT_HISTORY}
                   className={({ isActive }) => (isActive ? 'cur' : '')}
                 >
-                  연혁
+                  기록
                 </NavLink>
               </li>
               <li>
@@ -196,17 +196,10 @@ function EgovHeader() {
                   to={URL.ABOUT_ORGANIZATION}
                   className={({ isActive }) => (isActive ? 'cur' : '')}
                 >
-                  조직소개
+                  담당자소개
                 </NavLink>
               </li>
-              <li>
-                <NavLink
-                  to={URL.ABOUT_LOCATION}
-                  className={({ isActive }) => (isActive ? 'cur' : '')}
-                >
-                  찾아오시는 길
-                </NavLink>
-              </li>
+              
             </ul>
           </div>
           <div className='col'>
