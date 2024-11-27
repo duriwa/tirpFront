@@ -1,5 +1,5 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 import { default as EgovLeftNav } from 'components/leftmenu/EgovLeftNavSupport';
 import URL from 'constants/url';
@@ -12,6 +12,9 @@ function EgovDownloadList() {
       overflow: 'auto',
     },
   };*/
+
+  const [scheduleDetail, setScheduleDetail] = useState([]);
+
 
   return (
     <div className='container'>
