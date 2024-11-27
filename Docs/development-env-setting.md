@@ -33,7 +33,9 @@ npm start
 
 js 에서 `process.env.<키명> 으로 불러와 지는지 확인 한다.
 
-
-
+### 20241127 xlsx 모듈 설치 필요
+tirpfront root경로에서
+npm install xlsx
+모듈 설치 필요
 
 
