@@ -15,6 +15,7 @@ function EgovIntroSrchDown(props) {
   const location = useLocation();
   console.log('EgovIntroSrchDown [location] : ', location);
 
+
   const DATE = new Date();
   const FIRST_DAY_OF_THIS_WEEK = new Date(
     DATE.getFullYear(),
@@ -348,8 +349,11 @@ function EgovIntroSrchDown(props) {
                     }}
                   ></button>
                 </li>
-                <br></br>
-                <li>
+               
+              </ul>
+              <br></br>
+              <ul style={{ paddingTop: '10px' }}>
+              <li>
                   <Link
                     to={URL.INTRO_WORKS}
                     //state={{ bbsId: bbsId }}

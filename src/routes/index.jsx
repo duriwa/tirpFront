@@ -24,7 +24,7 @@ import EgovIntroWork from 'pages/intro/report/EgovIntroWork';
 import EgovIntroEtc from 'pages/intro/report/EgovIntroEtc';
 import EgovIntroWorkList from 'pages/intro/EgovIntroWorkList';
 import EgovIntroEtcList from 'pages/intro/EgovIntroEtcList';
-import EgovIntroSrchDown from 'pages/intro/EgovIntroSrchDown';
+//import EgovIntroSrchDown from 'pages/intro/EgovIntroSrchDown';
 
 //SUPPORT
 import EgovSupportDownloadList from 'pages/support/download/EgovDownloadList';
@@ -184,7 +184,7 @@ const SecondRoutes = () => {
           path={URL.INTRO_SERVICE_EDIT}
           // element={<EgovIntroServiceEdit />}
         />
-        <Route path={URL.INTRO_SERCH_DOWN} element={<EgovIntroSrchDown />} />
+       {/** <Route path={URL.INTRO_SERCH_DOWN} element={<EgovIntroSrchDown />} />*/}
         <Route
           path={URL.INTRO_SERVICE_CREATE}
           // element={<EgovIntroServiceEdit mode={CODE.MODE_CREATE} />}

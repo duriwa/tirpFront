@@ -5,6 +5,8 @@ import * as EgovNet from 'api/egovFetch';
 import URL from 'constants/url';
 import CODE from 'constants/code';
 
+import * as XLSX from 'xlsx';
+
 import { default as EgovLeftNav } from 'components/leftmenu/EgovLeftNavIntro';
 
 function EgovIntroEtcList(props) {
@@ -48,6 +50,7 @@ function EgovIntroEtcList(props) {
 
   const [scheduleList, setScheduleList] = useState([]);
   const [listTag, setListTag] = useState([]);
+  const [excelData, setExcelData] = useState([]);
 
   const changeDate = (target, amount) => {
     let changedDate;
@@ -177,6 +180,18 @@ function EgovIntroEtcList(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scheduleList]);
 
+  const excelDownload = () => {
+    console.log('엑셀!!');
+
+    // 워크북 만들기
+    const ws = XLSX.utils.json_to_sheet(excelData); // JSON 데이터를 시트 형식으로 변환
+    const wb = XLSX.utils.book_new(); // 새로운 워크북 생성
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1'); // 시트를 워크북에 추가
+
+    // 엑셀 파일 다운로드
+    XLSX.writeFile(wb, '주간업무보고_기타(교육,휴가).xlsx');
+  };
+
   const fn_srchEtcData = () => {
     console.log('????????????????');
     // body에 사번으로 조회
@@ -211,7 +226,7 @@ function EgovIntroEtcList(props) {
           </div>
         );
       });
-
+      setExcelData(data);
       setListTag(mutListTag);
     });
   };
@@ -287,8 +302,10 @@ function EgovIntroEtcList(props) {
                     }}
                   ></button>
                 </li>
-                <br></br>
-                <li>
+              </ul>
+              <br></br>
+              <ul style={{paddingTop:'10px'}}>
+              <li>
                   <Link
                     to={URL.INTRO_ETC}
                     //state={{ bbsId: bbsId }}
@@ -298,7 +315,7 @@ function EgovIntroEtcList(props) {
                   </Link>
                 </li>
                 <li>
-                  <Link className='btn btn_blue_h46 pd35'>다운로드</Link>
+                  <Link className='btn btn_blue_h46 pd35' onClick={() => excelDownload()}>다운로드</Link>
                 </li>
               </ul>
             </div>
