@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -6,6 +7,9 @@ import URL from 'constants/url';
 
 import { default as EgovLeftNav } from 'components/leftmenu/EgovLeftNavAdmin';
 import EgovPaging from 'components/EgovPaging';
+
+import { itemIdxByPage } from 'utils/calc';
+
 
 function EgovAdminCodeList(props) {
     const location = useLocation();
