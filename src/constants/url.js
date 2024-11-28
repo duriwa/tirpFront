@@ -16,7 +16,7 @@ const URL = {
   INTRO: '/intro/worksList', //정보마당
   INTRO_WORKSLIST: '/intro/worksList', // 주간보고 리스트페이지33
   INTRO_WORKS: '/intro/report/works', // 주간보고 작성페이지
-  INTRO_ETCLIST: '/intro/service', // 기타(교육, 휴가)
+  INTRO_ETCLIST: '/intro/etcList', // 기타(교육, 휴가)
   INTRO_ETC: '/intro/report/etc', // 기타(교육, 휴가)
   INTRO_SERCH_DOWN: '/intro/download/srchDown', //전체 조회 및 다운로드
 
