@@ -14,7 +14,7 @@ function EgovLeftNavSupport() {
               to={URL.SUPPORT_DOWNLOAD}
               className={({ isActive }) => (isActive ? 'cur' : '')}
             >
-              반영목록
+              반영목록 작성
             </NavLink>
           </li>
           <li>
@@ -22,15 +22,7 @@ function EgovLeftNavSupport() {
               to={URL.SUPPORT_QNA}
               className={({ isActive }) => (isActive ? 'cur' : '')}
             >
-              묻고답하기
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to={URL.SUPPORT_APPLY}
-              className={({ isActive }) => (isActive ? 'cur' : '')}
-            >
-              서비스신청
+              반영리스트 조회
             </NavLink>
           </li>
         </ul>

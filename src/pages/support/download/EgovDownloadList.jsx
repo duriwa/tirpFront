@@ -15,7 +15,6 @@ function EgovDownloadList() {
 
   const [scheduleDetail, setScheduleDetail] = useState([]);
 
-
   return (
     <div className='container'>
       <div className='c_wrap'>
@@ -24,13 +23,12 @@ function EgovDownloadList() {
           <ul>
             <li>
               <Link to='' className='home'>
-                Home
+                정기반영목록
               </Link>
             </li>
             <li>
-              <Link to=''>고객지원</Link>
+              <Link to=''>반영목록 등록</Link>
             </li>
-            <li>소개</li>
           </ul>
         </div>
         {/* <!--// Location --> */}
@@ -47,9 +45,7 @@ function EgovDownloadList() {
               <h1 className='tit_1'>정기반영목록</h1>
             </div>
 
-            <h2 className='tit_2'>이름</h2>
-
-            <h3 className='tit_5'>추천 다운로드 자료</h3>
+            <h3 className='tit_5'>반영목록 작성</h3>
 
             {/* <!--// 게시판목록 --> ====================================================*/}
 
@@ -63,20 +59,15 @@ function EgovDownloadList() {
                 >
                   <span>엑셀다운</span>
                 </Link>
+                <Link className='btn btn_blue_h46 pd35'>삭제</Link>
                 <Link
-                  to={URL.ADMIN_USAGE_CREATE}
-                  className='btn btn_blue_h46 pd35'
-                >
-                  삭제
-                </Link>
-                <Link
-                  to={URL.ADMIN_USAGE_CREATE}
+                  to={URL.SUPPORT_QNA_DETAIL}
                   className='btn btn_blue_h46 pd35'
                 >
                   저장
                 </Link>
                 <Link
-                  to={URL.ADMIN_USAGE_CREATE}
+                  to={URL.SUPPORT_QNA_DETAIL}
                   className='btn btn_blue_h46 pd35'
                 >
                   추가
