@@ -58,6 +58,9 @@ import EgovAdminBoardEdit from 'pages/admin/board/EgovAdminBoardEdit';
 import EgovAdminUserList from 'pages/admin/user/EgovAdminUserList';
 import EgovAdminUserEdit from 'pages/admin/user/EgovAdminUserEdit';
 
+import EgovAdminCodeList from 'pages/admin/code/EgovAdminCodeList';
+import EgovAdminCodeEdit from 'pages/admin/code/EgovAdminCodeEdit';
+
 import EgovAdminMenuList from 'pages/admin/menu/EgovAdminMenuList';
 import EgovAdminMenuEdit from 'pages/admin/menu/EgovAdminMenuEdit';
 // import EgovAdminMenuList from 'pages/admin/menu/MenuManagement';
@@ -289,6 +292,15 @@ const SecondRoutes = () => {
         <Route
           path={URL.ADMIN_USER_MODIFY}
           element={<EgovAdminUserEdit mode={CODE.MODE_MODIFY} />}
+        />
+        <Route path={URL.ADMIN_CODE} element={<EgovAdminCodeList />} />
+        <Route
+          path={URL.ADMIN_CODE_CREATE}
+          element={<EgovAdminCodeEdit mode={CODE.MODE_CREATE} />}
+        />
+        <Route
+          path={URL.ADMIN_CODE_MODIFY}
+          element={<EgovAdminCodeEdit mode={CODE.MODE_MODIFY} />}
         />
 
         <Route path={URL.ADMIN_MENU} element={<EgovAdminMenuList />} />
