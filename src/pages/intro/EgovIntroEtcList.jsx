@@ -287,6 +287,7 @@ function EgovIntroEtcList(props) {
                     }}
                   ></button>
                 </li>
+                <br></br>
                 <li>
                   <Link
                     to={URL.INTRO_ETC}
@@ -295,6 +296,9 @@ function EgovIntroEtcList(props) {
                   >
                     등록
                   </Link>
+                </li>
+                <li>
+                  <Link className='btn btn_blue_h46 pd35'>다운로드</Link>
                 </li>
               </ul>
             </div>
