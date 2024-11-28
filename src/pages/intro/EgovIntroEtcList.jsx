@@ -234,7 +234,7 @@ function EgovIntroEtcList(props) {
             {/* <!-- 본문 --> */}
 
             <div className='top_tit'>
-              <h1 className='tit_1'>주간업무보고</h1>
+              <h1 className='tit_1'>주간보고</h1>
             </div>
 
             <h2 className='tit_2'>기타(교육, 휴가)</h2>

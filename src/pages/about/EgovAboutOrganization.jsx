@@ -13,7 +13,7 @@ function EgovAboutOrganization() {
                     <ul>
                         <li><Link to={URL.MAIN} className="home" >Home</Link></li>
                         <li><Link to={URL.ABOUT}>사이트 소개</Link></li>
-                        <li>조직소개</li>
+                        <li>담당자 소개</li>
                     </ul>
                 </div>
                 {/* <!--// Location --> */}

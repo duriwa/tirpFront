@@ -348,14 +348,7 @@ function EgovIntroSrchDown(props) {
                     }}
                   ></button>
                 </li>
-                <li>
-                  <Link
-                    className='btn btn_blue_h46 pd35'
-                    onClick={() => excelDownload()}
-                  >
-                    다운로드
-                  </Link>
-                </li>
+                <br></br>
                 <li>
                   <Link
                     to={URL.INTRO_WORKS}
@@ -363,6 +356,14 @@ function EgovIntroSrchDown(props) {
                     className='btn btn_blue_h46 pd35'
                   >
                     등록
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className='btn btn_blue_h46 pd35'
+                    onClick={() => excelDownload()}
+                  >
+                    다운로드
                   </Link>
                 </li>
               </ul>
