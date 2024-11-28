@@ -153,9 +153,9 @@ function EgovIntroEtcList(props) {
             </Link>
           </li>
           <li>
-            <Link to={URL.INTRO}>기타(교육, 휴가)</Link>
+            <Link to={URL.INTRO}>주간업무보고</Link>
           </li>
-          <li>조회</li>
+          <li>기타(교육, 휴가)</li>
         </ul>
       </div>
     );
@@ -234,10 +234,10 @@ function EgovIntroEtcList(props) {
             {/* <!-- 본문 --> */}
 
             <div className='top_tit'>
-              <h1 className='tit_1'>기타(교육, 휴가)</h1>
+              <h1 className='tit_1'>주간업무보고</h1>
             </div>
 
-            <h2 className='tit_2'>조회</h2>
+            <h2 className='tit_2'>기타(교육, 휴가)</h2>
 
             {/* <!-- 검색조건 --> */}
             <div className='condition'>
@@ -289,7 +289,7 @@ function EgovIntroEtcList(props) {
                 </li>
                 <li>
                   <Link
-                    to={URL.INFORM_NOTICE_CREATE}
+                    to={URL.INTRO_ETC}
                     //state={{ bbsId: bbsId }}
                     className='btn btn_blue_h46 pd35'
                   >

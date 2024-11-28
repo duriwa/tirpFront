@@ -289,7 +289,10 @@ function EgovIntroSrchDown(props) {
               <h1 className='tit_1'>주간보고</h1>
             </div>
 
-            <h2 className='tit_2'>조회 및 다운로드</h2>
+            <h2 className='tit_2'>
+              조회 및 다운로드.. 페이지 빼도 되지 않을까요... 주간보고, 기타
+              화면으로...보면 될 거 같은데........
+            </h2>
 
             {/* <!-- 검색조건 --> */}
             <div className='condition'>

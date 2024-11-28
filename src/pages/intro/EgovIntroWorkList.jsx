@@ -166,7 +166,7 @@ function EgovIntroSrchDown(props) {
           <li>
             <Link to={URL.INTRO}>주간보고</Link>
           </li>
-          <li>조회</li>
+          <li>주간보고</li>
         </ul>
       </div>
     );
@@ -206,7 +206,7 @@ function EgovIntroSrchDown(props) {
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1'); // 시트를 워크북에 추가
 
     // 엑셀 파일 다운로드
-    XLSX.writeFile(wb, '주간보고.xlsx');
+    XLSX.writeFile(wb, '주간업무보고.xlsx');
   };
 
   const fn_srchWorkData = () => {
@@ -276,7 +276,7 @@ function EgovIntroSrchDown(props) {
               <h1 className='tit_1'>주간보고</h1>
             </div>
 
-            <h2 className='tit_2'>조회</h2>
+            <h2 className='tit_2'>주간보고</h2>
 
             {/* <!-- 검색조건 --> */}
             <div className='condition'>
@@ -354,6 +354,15 @@ function EgovIntroSrchDown(props) {
                     onClick={() => excelDownload()}
                   >
                     다운로드
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to={URL.INTRO_WORKS}
+                    //state={{ bbsId: bbsId }}
+                    className='btn btn_blue_h46 pd35'
+                  >
+                    등록
                   </Link>
                 </li>
               </ul>

@@ -122,9 +122,9 @@ function EgovIntroWork() {
               </Link>
             </li>
             <li>
-              <Link to={URL.INTRO_WORKSLIST}>사이트관리</Link>
+              <Link to={URL.INTRO_WORKSLIST}>주간보고</Link>
             </li>
-            <li>일정관리</li>
+            <li>주간보고 작성</li>
           </ul>
         </div>
         {/* <!--// Location --> */}
@@ -138,10 +138,10 @@ function EgovIntroWork() {
             {/* <!-- 본문 --> */}
 
             <div className='top_tit'>
-              <h1 className='tit_1'>사이트관리</h1>
+              <h1 className='tit_1'>주간보고</h1>
             </div>
 
-            <h2 className='tit_2'>일정관리 상세보기</h2>
+            <h2 className='tit_2'>주간보고 작성</h2>
 
             {/* <!-- 게시판 상세보기 --> */}
             <div className='board_view2'>
