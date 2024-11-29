@@ -10,7 +10,9 @@ import { default as EgovLeftNav } from 'components/leftmenu/EgovLeftNavIntro';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-function EgovIntroWork() {
+function EgovIntroWork(props) {
+
+  const [modeInfo, setModeInfo] = useState({ mode: props.mode });
   const [ttext, tttext] = useState(''); // input
   const location = useLocation();
   console.log('EgovAdminScheduleEdit [location] : ', location);
@@ -299,22 +301,16 @@ function EgovIntroWork() {
               {/* <!-- 버튼영역 --> */}
               <div className='board_btn_area'>
                 <div className='left_col btn1'>
-                  <button
-                    className='btn btn_skyblue_h46 w_100'
-                    onClick={fn_etcSave}
-                  >
-                    저장
-                  </button>
-                  <a href='#!' className='btn btn_skyblue_h46 w_100'>
-                    삭제
-                  </a>
+                  <button className='btn btn_skyblue_h46 w_100'
+                    onClick={() => fn_etcSave()}>저장</button>
+                    { modeInfo.mode === CODE.MODE_MODIFY &&
+                      <button className="btn btn_skyblue_h46 w_100" onClick={() => {
+                         //deleteUserArticle(userDetail.userId);
+                      }}>삭제</button>
+                    }
                 </div>
-
                 <div className='right_col btn1'>
-                  <Link
-                    to={URL.INTRO_ETCLIST}
-                    className='btn btn_blue_h46 w_100'
-                  >
+                  <Link to={URL.INTRO_ETCLIST}  className='btn btn_blue_h46 w_100'>
                     목록
                   </Link>
                 </div>
