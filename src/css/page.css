@@ -531,6 +531,120 @@
 .BRD006 .result .list_item > div:nth-child(6) {
   width: 140px;
 }
+/* 주간보고 */
+/* 주간보고 기타및교육*/
+.BRD998 .head > span:nth-child(1) {
+  width: 40px;
+}
+.BRD998 .head > span:nth-child(2) {
+  width: 50px;
+}
+.BRD998 .head > span:nth-child(3) {
+  width: 110px;
+}
+.BRD998 .head > span:nth-child(4) {
+  width: 120px;
+}
+.BRD998 .head > span:nth-child(5) {
+  width: 90px;
+}
+.BRD998 .head > span:nth-child(6) {
+  width: 90px;
+}
+.BRD998 .head > span:nth-child(7) {
+  width: 90px;
+}
+.BRD998 .head > span:nth-child(8) {
+  width: 70px;
+}
+.BRD998 .head > span:nth-child(9) {
+  width: 70px;
+}
+.BRD998 .head > span:nth-child(10) {
+  width: 70px;
+}
+.BRD998 .head > span:nth-child(11) {
+  width: 70px;
+}
+.BRD998 .head > span:nth-child(12) {
+  width: 70px;
+}
+
+.BRD998 .result .list_item > div:nth-child(1) {
+  width: 40px;
+}
+.BRD998 .result .list_item > div:nth-child(2) {
+  width: 50px;
+}
+.BRD998 .result .list_item > div:nth-child(3) {
+  width: 110px;
+}
+.BRD998 .result .list_item > div:nth-child(4) {
+  width: 120px;
+}
+.BRD998 .result .list_item > div:nth-child(5) {
+  width: 90px;
+}
+.BRD998 .result .list_item > div:nth-child(6) {
+  width: 90px;
+}
+.BRD998 .result .list_item > div:nth-child(7) {
+  width: 90px;
+}
+.BRD998 .result .list_item > div:nth-child(8) {
+  width: 70px;
+}
+.BRD998 .result .list_item > div:nth-child(9) {
+  width: 70px;
+}
+.BRD998 .result .list_item > div:nth-child(10) {
+  width: 70px;
+}
+.BRD998 .result .list_item > div:nth-child(11) {
+  width: 70px;
+}
+.BRD998 .result .list_item > div:nth-child(12) {
+  width: 70px;
+}
+
+
+/* 주간보고 기타및교육*/
+.BRD999 .head > span:nth-child(1) {
+  width: 50px;
+}
+.BRD999 .head > span:nth-child(2) {
+  width: 50Px;
+}
+.BRD999 .head > span:nth-child(3) {
+  width: 200px;
+}
+.BRD999 .head > span:nth-child(4) {
+  width: 70px;
+}
+.BRD999 .head > span:nth-child(5) {
+  width: 70px;
+}
+.BRD999 .head > span:nth-child(6) {
+  width: 180px;
+}
+.BRD999 .result .list_item > div:nth-child(1) {
+  width: 50px;
+}
+.BRD999 .result .list_item > div:nth-child(2) {
+  width: 50px;
+}
+.BRD999 .result .list_item > div:nth-child(3) {
+  width: 200px;
+}
+.BRD999 .result .list_item > div:nth-child(4) {
+  width: 70px;
+}
+.BRD999 .result .list_item > div:nth-child(5) {
+  width: 70px;
+}
+.BRD999 .result .list_item > div:nth-child(6) {
+  width: 180px;
+}
 
 /* 사이트소개 */
 .SITE_INTRO .ds_1 .t_1 {

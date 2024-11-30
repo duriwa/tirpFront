@@ -218,7 +218,7 @@ function EgovHeader() {
                   to={URL.INTRO_ETCLIST}
                   className={({ isActive }) => (isActive ? 'cur' : '')}
                 >
-                  일정관리
+                  기타(교육, 휴가)
                 </NavLink>
               </li>
             </ul>
@@ -231,7 +231,7 @@ function EgovHeader() {
                   to={URL.SUPPORT_DOWNLOAD}
                   className={({ isActive }) => (isActive ? 'cur' : '')}
                 >
-                  개인목로관리
+                  개인목록관리
                 </NavLink>
               </li>
               <li>

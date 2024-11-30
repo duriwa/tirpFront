@@ -336,27 +336,6 @@ function EgovIntroWork() {
               </dl>
               <dl>
                 <dt>
-                  <label htmlFor='sawonNm'>담당자</label>
-                  <span className='req'>필수</span>
-                </dt>
-                <dd>
-                  <input
-                    className='f_input2 w_full'
-                    type='text'
-                    name='sawonNm'
-                    id='sawonNm'
-                    defaultValue={scheduleDetail.sawonNm}
-                    onChange={(e) =>
-                      setScheduleDetail({
-                        ...scheduleDetail,
-                        sawonNm: e.target.value,
-                      })
-                    }
-                  />
-                </dd>
-              </dl>
-              <dl>
-                <dt>
                   <label htmlFor='memHour'>공수</label>
                   <span className='req'>필수</span>
                 </dt>

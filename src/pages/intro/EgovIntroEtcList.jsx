@@ -113,14 +113,22 @@ function EgovIntroEtcList(props) {
     (srchcnd) => {
       console.log("retrieveList");
       console.log("==>   ", srchcnd);
-      console.groupCollapsed('EgovIntroSrchDown.retrieveList()');
+      console.log("====>", retrieveList);
+
+      var loginData = JSON.parse(sessionStorage.getItem("loginUser"));
+
+    
+      const requestData = {
+        sawonCd: loginData.id,
+        eduNm: srchcnd.searchWrd
+      };
 
       const requestOptions = {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
         },
-        body: srchcnd,
+        body: JSON.stringify(requestData),
       };
   
       EgovNet.requestFetch(`/srchEtc`, requestOptions, function (resp) {
@@ -135,17 +143,18 @@ function EgovIntroEtcList(props) {
             <div id='linkTest'>
               <Link to={URL.INTRO_ETC}>
                 <div className='list_item' key={i}>
-                  <div>{item.gubun}</div>
-                  <div>{item.gubun_detail}</div>
-                  <div>{item.edu_nm}</div>
-                  <div>{item.st_dt}</div>
-                  <div>{item.end_dt}</div>
-                  <div>{item.bigo}</div>
+                  <div id="div1" style={{width: '60px;'}}>{item.gubun}</div>
+                  <div id="div2" style={{width: '60px;'}}>{item.gubundetail}</div>
+                  <div id="div3" style={{width: '200px;'}}>{item.edunm}</div>
+                  <div id="div4" style={{width: '70px;'}}>{item.stdt}</div>
+                  <div id="div5" style={{width: '70px;'}}>{item.enddt}</div>
+                  <div id="div6" style={{width: '230px;'}}>{item.bigo}</div>
                 </div>
               </Link>
             </div>
           );
         });
+        
         setExcelData(data);
         setListTag(mutListTag);
       });
@@ -182,15 +191,10 @@ function EgovIntroEtcList(props) {
   };
 
   useEffect(() => {
-    //(searchCondition);
-    setListTag([]); // 상태 초기화
+    retrieveList(searchCondition);
+    //setListTag([]); // 상태 초기화
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchCondition]);
-
-  useEffect(() => {
-    fn_srchEtcData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scheduleList]);
 
   const excelDownload = () => {
     console.log('엑셀!!');
@@ -204,12 +208,6 @@ function EgovIntroEtcList(props) {
     XLSX.writeFile(wb, '주간업무보고_기타(교육,휴가).xlsx');
   };
 
-  const fn_srchEtcData = () => {
-    console.log("22");
-  };
-
-  console.log('----------------------------EgovIntroSrchDown [End]');
-  console.groupEnd('EgovIntroSrchDown');
   return (
     <div className='container'>
       <div className='c_wrap'>
@@ -232,73 +230,6 @@ function EgovIntroEtcList(props) {
             <h2 className='tit_2'>기타(교육, 휴가)</h2>
 
             {/* <!-- 검색조건 --> */}
-            {/*
-            <div className='condition'>
-              <ul>
-                <li>
-                  <button
-                    className='prev'
-                    onClick={() => {
-                      changeDate(CODE.DATE_YEAR, -1);
-                    }}
-                  ></button>
-                  <span>{searchCondition.year}년</span>
-                  <button
-                    className='next'
-                    onClick={() => {
-                      changeDate(CODE.DATE_YEAR, 1);
-                    }}
-                  ></button>
-                </li>
-                <li className='half L'>
-                  <button
-                    className='prev'
-                    onClick={() => {
-                      changeDate(CODE.DATE_MONTH, -1);
-                    }}
-                  ></button>
-                  <span>{searchCondition.month + 1}월</span>
-                  <button
-                    className='next'
-                    onClick={() => {
-                      changeDate(CODE.DATE_MONTH, 1);
-                    }}
-                  ></button>
-                </li>
-                <li className='half R'>
-                  <button
-                    className='prev'
-                    onClick={() => {
-                      changeDate(CODE.DATE_WEEK, -1);
-                    }}
-                  ></button>
-                  <span>{searchCondition.weekOfMonth + 1}주</span>
-                  <button
-                    className='next'
-                    onClick={() => {
-                      changeDate(CODE.DATE_WEEK, 1);
-                    }}
-                  ></button>
-                </li>
-              </ul>
-              <br></br>
-              <ul style={{paddingTop:'10px'}}>
-              <li>
-                  <Link
-                    to={URL.INTRO_ETC}
-                    //state={{ bbsId: bbsId }}
-                    className='btn btn_blue_h46 pd35'
-                  >
-                    등록
-                  </Link>
-                </li>
-                <li>
-                  <Link className='btn btn_blue_h46 pd35' onClick={() => excelDownload()}>다운로드</Link>
-                </li>
-              </ul>
-            </div>
-            */}
-            {/* <!-- 검색조건 --> */}
             <div className="condition">
                 <ul>
                     <li className="third_1 L">
@@ -309,7 +240,7 @@ function EgovIntroEtcList(props) {
                                     cndRef.current.value = e.target.value; 
                                 }}
                             >
-                                <option value="0">이름</option>
+                                <option value="0">교육명</option>
                                 <option value="1">아이디</option>
                             </select>
                         </label>
@@ -328,8 +259,9 @@ function EgovIntroEtcList(props) {
                                 }}>조회</button>
                         </span>
                     </li>
-                    <br></br>
-                    <li>
+                </ul>
+                <ul style={{paddingTop: '15px'}}>
+                <li>
                       <Link
                         to={URL.INTRO_ETC}
                         //state={{ bbsId: bbsId }}
@@ -347,9 +279,9 @@ function EgovIntroEtcList(props) {
             {/* <!--// 검색조건3 3--> */}
 
             {/* <!-- 게시판목록 --> */}
-            <div className='board_list BRD004'>
+            <div className='board_list BRD999'>
               <div className='head'>
-                <span>구분</span>
+                <span >구분</span>
                 <span>구분상세</span>
                 <span>교육명</span>
                 <span>시작일자</span>

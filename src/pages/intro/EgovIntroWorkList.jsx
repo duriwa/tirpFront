@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import * as EgovNet from 'api/egovFetch';
 import URL from 'constants/url';
@@ -14,6 +14,14 @@ function EgovIntroSrchDown(props) {
   console.log('props end');
   const location = useLocation();
   console.log('EgovIntroSrchDown [location] : ', location);
+
+  const [paginationInfo, setPaginationInfo] = useState({});
+  
+  const navigate = useNavigate();
+  const checkRef = useRef([]);
+
+  const cndRef = useRef();
+  const wrdRef = useRef();
 
 
   const DATE = new Date();
@@ -129,30 +137,55 @@ function EgovIntroSrchDown(props) {
     (srchcnd) => {
       console.groupCollapsed('EgovIntroSrchDown.retrieveList()');
 
-      const retrieveListURL =
-        '/schedule/week' + EgovNet.getQueryString(srchcnd);
+      var loginData = JSON.parse(sessionStorage.getItem("loginUser"));
+      const requestData = {
+        sawonCd: loginData.id,
+        srchGubun: srchcnd.searchCnd,
+        srchWrd: srchcnd.searchWrd
+      };
+
       const requestOptions = {
-        method: 'GET',
+        method: 'POST',
         headers: {
           'Content-type': 'application/json',
         },
+        body: JSON.stringify(requestData),
       };
 
-      EgovNet.requestFetch(
-        retrieveListURL,
-        requestOptions,
-        (resp) => {
-          setScheduleList(resp.result.resultList);
-          drawList();
-        },
-        function (resp) {
-          console.log('err response : ', resp);
-        }
-      );
-
-      console.groupEnd('EgovIntroSrchDown.retrieveList()');
+      
+      EgovNet.requestFetch(`/srchWork`, requestOptions, function (resp) {
+        console.log('정상!!!');
+        var data = resp.result.result;
+        console.log(data);
+  
+        let mutListTag = [];
+        mutListTag = [];
+        data.forEach((item, i) => {
+          mutListTag.push(
+            <div id='linkTest'>
+              <Link to={URL.INTRO_WORKS}>
+                <div className='list_item' key={i}>
+                  <div>{item.gubun}</div>
+                  <div>{item.level}</div>
+                  <div>{item.sr_no}</div>
+                  <div>{item.sr_nm}</div>
+                  <div>{item.dev_st_dt}</div>
+                  <div>{item.dev_end_dt}</div>
+                  <div>{item.end_dt}</div>
+                  <div>{item.prog_rate}</div>
+                  <div>{item.prog_status}</div>
+                  <div>{item.memhour}</div>
+                  <div>{item.bigo}</div>
+                </div>
+              </Link>
+            </div>
+          );
+        });
+  
+        setExcelData(data);
+        setListTag(mutListTag);
+      });
     },
-    [drawList]
   );
 
   const Location = React.memo(function Location() {
@@ -184,20 +217,6 @@ function EgovIntroSrchDown(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchCondition]);
 
-  useEffect(() => {
-    fn_srchWorkData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scheduleList]);
-
-  useEffect(() => {
-    console.log('srch~~~');
-    try {
-      fn_srchWorkData();
-    } catch (error) {
-      console.error('fn_srchWorkData 실행 중 오류:', error);
-    }
-  }, []);
-
   const excelDownload = () => {
     console.log('엑셀!!');
 
@@ -210,51 +229,7 @@ function EgovIntroSrchDown(props) {
     XLSX.writeFile(wb, '주간업무보고.xlsx');
   };
 
-  const fn_srchWorkData = () => {
-    console.log('????????????????');
-    // body에 사번으로 조회
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      //body: JSON.stringify(),
-    };
-
-    EgovNet.requestFetch(`/srchWork`, requestOptions, function (resp) {
-      console.log('정상!!!');
-      var data = resp.result.result;
-      console.log(data);
-
-      let mutListTag = [];
-      mutListTag = [];
-      data.forEach((item, i) => {
-        mutListTag.push(
-          <div id='linkTest'>
-            <Link to={URL.INTRO_WORKS}>
-              <div className='list_item' key={i}>
-                <div>{item.gubun}</div>
-                <div>{item.level}</div>
-                <div>{item.sr_no}</div>
-                <div>{item.sr_nm}</div>
-                <div>{item.dev_st_dt}</div>
-                <div>{item.dev_end_dt}</div>
-                <div>{item.end_dt}</div>
-                <div>{item.prog_rate}</div>
-                <div>{item.prog_status}</div>
-                <div>담당자</div>
-                <div>{item.mem_hour}</div>
-                <div>{item.bigo}</div>
-              </div>
-            </Link>
-          </div>
-        );
-      });
-
-      setExcelData(data);
-      setListTag(mutListTag);
-    });
-  };
+  
 
   console.log('----------------------------EgovIntroSrchDown [End]');
   console.groupEnd('EgovIntroSrchDown');
@@ -280,102 +255,56 @@ function EgovIntroSrchDown(props) {
             <h2 className='tit_2'>주간보고</h2>
 
             {/* <!-- 검색조건 --> */}
-            <div className='condition'>
-              <ul>
+             {/* <!-- 검색조건 --> */}
+             <div className="condition">
+                <ul>
+                    <li className="third_1 L">
+                        <span className="lb">검색유형선택</span>
+                        <label className="f_select" htmlFor="searchCnd">
+                            <select id="searchCnd" name="searchCnd" title="검색유형선택" ref={cndRef}
+                                onChange={e => {
+                                    cndRef.current.value = e.target.value; 
+                                }}
+                            >
+                                <option value="0">형상번호</option>
+                                <option value="1">형상명</option>
+                            </select>
+                        </label>
+                    </li>
+                    <li className="third_2 R">
+                        <span className="lb">검색어</span>
+                        <span className="f_search w_400">
+                            <input type="text" name="" defaultValue={searchCondition && searchCondition.searchWrd} placeholder="" ref={wrdRef}
+                                onChange={e => {
+                                    wrdRef.current.value = e.target.value;
+                                }}
+                            />
+                            <button type="button"
+                                onClick={() => {
+                                    retrieveList({ searchCnd: cndRef.current.value, searchWrd: wrdRef.current.value });
+                                }}>조회</button>
+                        </span>
+                    </li>
+                </ul>
+                <ul style={{paddingTop: '15px'}}>
                 <li>
-                  <label className='f_select' htmlFor='sel1'>
-                    <select
-                      name=''
-                      id='sel1'
-                      title='조건'
-                      onChange={(e) => {
-                        setSearchCondition({
-                          ...searchCondition,
-                          schdulSe: e.target.value,
-                        });
-                      }}
-                    >
-                      <option value=''>전체</option>
-                      <option value='1'>회의</option>
-                      <option value='2'>세미나</option>
-                      <option value='3'>강의</option>
-                      <option value='4'>교육</option>
-                      <option value='5'>기타</option>
-                    </select>
-                  </label>
-                </li>
-                <li>
-                  <button
-                    className='prev'
-                    onClick={() => {
-                      changeDate(CODE.DATE_YEAR, -1);
-                    }}
-                  ></button>
-                  <span>{searchCondition.year}년</span>
-                  <button
-                    className='next'
-                    onClick={() => {
-                      changeDate(CODE.DATE_YEAR, 1);
-                    }}
-                  ></button>
-                </li>
-                <li className='half L'>
-                  <button
-                    className='prev'
-                    onClick={() => {
-                      changeDate(CODE.DATE_MONTH, -1);
-                    }}
-                  ></button>
-                  <span>{searchCondition.month + 1}월</span>
-                  <button
-                    className='next'
-                    onClick={() => {
-                      changeDate(CODE.DATE_MONTH, 1);
-                    }}
-                  ></button>
-                </li>
-                <li className='half R'>
-                  <button
-                    className='prev'
-                    onClick={() => {
-                      changeDate(CODE.DATE_WEEK, -1);
-                    }}
-                  ></button>
-                  <span>{searchCondition.weekOfMonth + 1}주</span>
-                  <button
-                    className='next'
-                    onClick={() => {
-                      changeDate(CODE.DATE_WEEK, 1);
-                    }}
-                  ></button>
-                </li>
-               
-              </ul>
-              <br></br>
-              <ul style={{ paddingTop: '10px' }}>
-              <li>
-                  <Link
-                    to={URL.INTRO_WORKS}
-                    //state={{ bbsId: bbsId }}
-                    className='btn btn_blue_h46 pd35'
-                  >
-                    등록
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className='btn btn_blue_h46 pd35'
-                    onClick={() => excelDownload()}
-                  >
-                    다운로드
-                  </Link>
-                </li>
-              </ul>
+                      <Link
+                        to={URL.INTRO_WORKS}
+                        //state={{ bbsId: bbsId }}
+                        className='btn btn_blue_h46 pd35'
+                      >
+                        등록
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className='btn btn_blue_h46 pd35' onClick={() => excelDownload()}>다운로드</Link>
+                    </li>
+                </ul>
             </div>
-            {/* <!--// 검색조건 2-22222234234234234324123213333222-> */}
+            {/* <!--// 검색조건 --> */}
 
             {/* <!-- 게시판목록 --> */}
-            <div className='board_list BRD004'>
+            <div className='board_list BRD998'>
               <div className='head'>
                 <span>구분</span>
                 <span>중요도</span>
@@ -386,7 +315,6 @@ function EgovIntroSrchDown(props) {
                 <span>반영예정일</span>
                 <span>진척율</span>
                 <span>진행상태</span>
-                <span>담당자</span>
                 <span>공수</span>
                 <span>비고</span>
               </div>
