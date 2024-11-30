@@ -16,7 +16,7 @@ function EgovIntroWork() {
   console.log('EgovAdminScheduleEdit [location] : ', location);
 
   const [scheduleDetail, setScheduleDetail] = useState({});
-
+  const navigate = useNavigate();
   const convertDate = (str) => {
     let year = str.substring(0, 4);
     let month = str.substring(4, 6);
@@ -73,12 +73,30 @@ function EgovIntroWork() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0'); // 0부터 시작하므로 +1
+    const day = String(d.getDate()).padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+  };
+
   /**
    * 저장
    */
   const fn_workSave = () => {
     console.log('fn_workSave');
+
+    var loginData = JSON.parse(sessionStorage.getItem("loginUser"));
+
+    scheduleDetail.devEndDt = formatDate(scheduleDetail.devEndDt);
+    scheduleDetail.endDt = formatDate(scheduleDetail.endDt);
+    scheduleDetail.devStDt = formatDate(scheduleDetail.devStDt);
+    scheduleDetail.sawonCd = loginData.id;
+
     console.log(scheduleDetail);
+   
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -89,7 +107,7 @@ function EgovIntroWork() {
     setScheduleDetail({});
     console.log('chrlghk');
     console.log(scheduleDetail);
-    return true;
+    
     EgovNet.requestFetch(`/insWork`, requestOptions, function (resp) {
       console.log('정상');
       var data = resp.result;
@@ -100,10 +118,7 @@ function EgovIntroWork() {
       // Insert 성공
       if (1 == data.result) {
         alert('등록 되었습니다.');
-
-        console.log('🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎');
-        setScheduleDetail({});
-        console.log('🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎');
+        navigate({ pathname: URL.INTRO_WORKSLIST });
       }
     });
   };
